@@ -16,13 +16,13 @@ class Note extends Component{
 		this.randomBetween = this.randomBetween.bind(this)
 	}
 
-	componentWillMount() {
+	/*componentWillMount() {
 		this.style = {
 			right: this.randomBetween(0, window.innerWidth - 150, 'px'),
 			top: this.randomBetween(0, window.innerHeight - 150, 'px'),
 			transform: `rotate(${this.randomBetween(-25, 25, 'deg')})`
 		}
-	}
+	}*/
 
 	randomBetween(x,y,s){
 		return x+Math.ceil(Math.random()*(y-x))+s

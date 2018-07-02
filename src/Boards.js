@@ -11,17 +11,17 @@ class Board extends Component {
 		}
 		this.add = this.add.bind(this)
 		this.eachNote = this.eachNote.bind(this)
-		this.update = this.update.bind(this)
+		this.updateTitle = this.updateTitle.bind(this)
 		this.remove = this.remove.bind(this)
 		this.nextnoteId = this.nextnoteId.bind(this)
 	}
-	add(card){
+	add(note){
 		this.setState(prevState =>({
 			notes:[
 			    ...prevState.notes,
 			    {
 			    	id:this.nextnoteId(),
-			    	note: card
+			    	note: note
 			    }
 
 			]
@@ -31,11 +31,11 @@ class Board extends Component {
 		this.uniquenoteId = this.uniquenoteId || 0
 		return this.uniquenoteId++
 	}
-	update(newNote,i){
+	updateTitle(newNoteTitle,i){
 		console.log('updating note at index',i)
 		this.setState(prevState => ({
 			notes: prevState.notes.map(
-				note => (note.id !== i) ? note : {...note,note: newNote}
+				note => (note.id !== i) ? note : {...note,note: newNoteTitle}
 				)
 		}))
 	}
@@ -50,7 +50,7 @@ class Board extends Component {
 		return (
 			<Note key={note.id}
 				  index={note.id}
-				  onChange={this.update}
+				  onChange={this.updateTitle}
 				  onRemove={this.remove}>
 				  {note.note}
 		    </Note>

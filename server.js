@@ -17,19 +17,18 @@ app.post('/note', (req, res) =>{
         messages.push({
           id : comingReq.id,
           note: comingReq.note,
-          cards: comingReq.cards
+          cards: comingReq.cards,
         });
       } else if(comingReq.methodFlag ==="update"){
         var index = messages.findIndex((note) => comingReq.id === note.id);
         messages[index].note = comingReq.note;
       } else {
         var index = messages.findIndex((note) => comingReq.id === note.id);
-        messages.splice(index, 1);
+        messages[index].id = -1;
+        //messages.splice(index, 1);
       }
     } else {
-      console.log("coming request noteid = " + comingReq.NoteId);
       var noteIndex = messages.findIndex((note) => comingReq.noteId === note.id);
-      console.log("noteIndex is " + noteIndex);
       var cardsArray = messages[noteIndex].cards; //can i use variable
       if(comingReq.methodFlag ==="add"){
         cardsArray.push({
@@ -41,10 +40,12 @@ app.post('/note', (req, res) =>{
         cardsArray[index].card = comingReq.card;
       } else {
         var index = cardsArray.findIndex((note) => comingReq.id === note.id);
-        cardsArray.splice(index, 1);
+        cardsArray[index].id = -1;
+        //cardsArray.splice(index, 1);
       }
     }
     res.sendStatus(200);
+    console.log("now the messages contains" + messages);
 })//post send stuff to the server
 
 

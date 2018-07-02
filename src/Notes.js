@@ -22,6 +22,7 @@ class Note extends Component {
 		this.saveTitle = this.saveTitle.bind(this)
 		this.renderForm = this.renderForm.bind(this)
 		this.renderDisplay = this.renderDisplay.bind(this)
+		this.postCard = this.postCard.bind(this)
 		//this.randomBetween = this.randomBetween.bind(this)
 	}
 
@@ -44,6 +45,30 @@ class Note extends Component {
 			titleArea.select()
 		}
 	}*/
+	//load cards retrieved from server on each note
+	componentWillMount() {
+		this.setState({cards: this.props.cards});
+		this.uniqueId = this.props.cards.length;
+	}
+	//---------------------------------------------------------------------------
+	//method to post note data to server
+	postCard(noteFlag, methodFlag, noteId, id, text){
+		fetch('http://localhost:3000/note', {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				noteFlag: noteFlag,
+				methodFlag: methodFlag,
+				noteId: noteId,
+				id: id,
+				card: text
+			})
+		});
+	}
+	//------------------------------------------------------------------------
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return (
@@ -68,24 +93,29 @@ class Note extends Component {
 	}
 
 	add(text){
+		let generateId = this.nextId();
+		console.log("the note id" + this.props.index);
+		this.postCard("card", "add", this.props.index, generateId, text);
 		this.setState(prevState =>({
 			cards:[
-			    ...prevState.cards,
-			    {
-			    	id:this.nextId(),
-			    	card:text
-			    }
-
+					...prevState.cards,
+					{
+						id:generateId,
+						card:text
+					}
 			]
 		}))
 	}
 
 	nextId(){
-		this.uniqueId = this.uniqueId || 0
+		//change the id generation to give out id from number of elements in the state array
+		//this.uniqueId = this.uniqueId || 0
 		return this.uniqueId++
 	}
 
+
 	update(newText,i){
+		this.postCard("card", "update", this.props.index, i, newText);
 		console.log('updating item at index',i)
 		this.setState(prevState => ({
 			cards: prevState.cards.map(
@@ -96,6 +126,7 @@ class Note extends Component {
 
 	removeCard(id){
 		console.log('removing item at',id)
+		this.postCard("card", "delete", this.props.index, id, "byebye");
 		this.setState(prevState => ({
 			cards: prevState.cards.filter(card => card.id !== id)
 		}))
@@ -105,9 +136,12 @@ class Note extends Component {
 		this.props.onRemove(this.props.index)
 	}
 
-	
+
 
 	eachCard(card, i) {
+		if(card.id === -1){
+			return;
+		}
 		return (
 			<Card key={card.id}
 				  index={card.id}
@@ -135,18 +169,19 @@ class Note extends Component {
 		return (
 			<div className="note" >
 				<p>{this.props.children}</p>
-					
+				<button onClick={this.remove} id="remove"><FaTrash /></button>
+				<button onClick={this.editTitle} id="edit"><FaPencil /></button>
+
 				{this.state.cards.map(this.eachCard)}
 				<span>
 				<button onClick={this.add.bind(null,"New Card")}
 				    id="add">
 				    <FaPlus />
 				</button>
-				<button onClick={this.remove} id="remove"><FaTrash /></button>
-				<button onClick={this.editTitle} id="edit"><FaPencil /></button>
+				
 				</span>
 
-				
+
 			</div>
 		)
 	}
@@ -154,11 +189,11 @@ class Note extends Component {
 		return this.state.editingTitle ? this.renderForm() : this.renderDisplay()
 	}
 
-	
-  
 
 
-	
+
+
+
 }
 
 export default Note

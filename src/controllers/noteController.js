@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import {noteSchema, cardSchema} from '../models/1564models';
 
-const Note = mongoose.model('Note', noteSchema);
+export const Note = mongoose.model('Note', noteSchema);
 
 export const addNewNote = (req, res) => {
   let newNote = new Note(req.body);

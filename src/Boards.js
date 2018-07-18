@@ -13,7 +13,6 @@ class Board extends Component {
 		this.eachNote = this.eachNote.bind(this)
 		this.updateTitle = this.updateTitle.bind(this)
 		this.remove = this.remove.bind(this)
-		this.postNote = this.postNote.bind(this) //new method to post to server
 	}
 	//retriving data from server before mounting borad
 	componentWillMount() {
@@ -68,23 +67,7 @@ class Board extends Component {
 		console.log(error);
 	})
 	}
-	//method to post note data to server
-	postNote(noteFlag, methodFlag, id, text, cards){
-		fetch('http://localhost:3000/note', {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				noteFlag: noteFlag,
-				methodFlag: methodFlag,
-				id: id,
-				note: text,
-				cards: cards
-			})
-		});
-	}
+
 	updateTitle(newNoteTitle, i) {
 		var self = this;
 		fetch(`http://localhost:3000/note/${i}`, {

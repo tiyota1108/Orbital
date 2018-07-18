@@ -17,12 +17,10 @@ class Note extends Component {
 		this.update = this.update.bind(this)
 		this.removeCard = this.removeCard.bind(this)
 		this.remove = this.remove.bind(this)
-		this.nextId = this.nextId.bind(this)
 		this.editTitle = this.editTitle.bind(this)
 		this.saveTitle = this.saveTitle.bind(this)
 		this.renderForm = this.renderForm.bind(this)
 		this.renderDisplay = this.renderDisplay.bind(this)
-		this.postCard = this.postCard.bind(this)
 		//this.randomBetween = this.randomBetween.bind(this)
 	}
 
@@ -47,27 +45,14 @@ class Note extends Component {
 	}*/
 	//load cards retrieved from server on each note
 	componentWillMount() {
-		this.setState({cards: this.props.cards});
-		this.uniqueId = this.props.cards.length;
-	}
-	//---------------------------------------------------------------------------
-	//method to post note data to server
-	postCard(noteFlag, methodFlag, noteId, id, text){
-		fetch('http://localhost:3000/note', {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				noteFlag: noteFlag,
-				methodFlag: methodFlag,
-				noteId: noteId,
-				id: id,
-				card: text
-			})
+		this.setState({
+			cards: this.props.cards.map(card => (
+				{id: card._id,
+				card: card.cardContent}
+			))
 		});
 	}
+
 	//------------------------------------------------------------------------
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -92,56 +77,92 @@ class Note extends Component {
 		})
 	}
 
-	add(text){
-		let generateId = this.nextId();
-		console.log("the note id" + this.props.index);
-		this.postCard("card", "add", this.props.index, generateId, text);
-		this.setState(prevState =>({
-			cards:[
-					...prevState.cards,
-					{
-						id:generateId,
-						card:text
-					}
-			]
-		}))
+	add(text) {
+		var self = this;
+		fetch(`http://localhost:3000/card/${this.props.index}`, {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				cardContent: text,
+			})
+		})
+		.then(response => response.json())
+		.then(response => {
+			console.log(response);
+			self.setState(prevState =>({
+				cards:[
+						...prevState.cards,
+						{
+							id:response._id,
+							card:text
+						}
+				]
+			}));
+		})
+		.catch( (error) => {
+		console.log(error);
+	})
 	}
 
-	nextId(){
-		//change the id generation to give out id from number of elements in the state array
-		//this.uniqueId = this.uniqueId || 0
-		return this.uniqueId++
+
+	update(newText, i) {
+		var self = this;
+		fetch(`http://localhost:3000/card/${this.props.index}/${i}`, {
+			method: 'PUT',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				cardContent: newText,
+			})
+		})
+		.then(response => response.json())
+		.then(response => {
+			console.log(response);
+			self.setState(prevState => ({
+				cards: prevState.cards.map(
+					card => (card.id !== i) ? card : {...card,card: newText}
+					)
+			}));
+		})
+		.catch( (error) => {
+		console.log(error);
+	})
 	}
 
-
-	update(newText,i){
-		this.postCard("card", "update", this.props.index, i, newText);
-		console.log('updating item at index',i)
-		this.setState(prevState => ({
-			cards: prevState.cards.map(
-				card => (card.id !== i) ? card : {...card,card: newText}
-				)
-		}))
-	}
-
-	removeCard(id){
-		console.log('removing item at',id)
-		this.postCard("card", "delete", this.props.index, id, "byebye");
-		this.setState(prevState => ({
-			cards: prevState.cards.filter(card => card.id !== id)
-		}))
-	}
 
 	remove() {
 		this.props.onRemove(this.props.index)
 	}
 
+	removeCard(id) {
+		console.log('removing item at', id)
+		var self = this;
+		fetch(`http://localhost:3000/card/${this.props.index}/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			}
+		})
+		.then(response => response.json())
+		.then(response => {
+			console.log(response);
+			self.setState(prevState => ({
+				cards: prevState.cards.filter(card => card.id !== id)
+			}));
+		})
+		.catch( (error) => {
+		console.log(error);
+	})
+	}
 
 
 	eachCard(card, i) {
-		if(card.id === -1){
-			return;
-		}
 		return (
 			<Card key={card.id}
 				  index={card.id}
@@ -178,7 +199,7 @@ class Note extends Component {
 				    id="add">
 				    <FaPlus />
 				</button>
-				
+
 				</span>
 
 

@@ -2,10 +2,6 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 export const cardSchema = new Schema({
-  cardId: {
-    type: Number,
-    required : 'provide cardId'
-  },
   cardContent: {
     type: String
   },
@@ -16,9 +12,6 @@ export const cardSchema = new Schema({
 });
 
 export const noteSchema = new Schema({
-  noteId : {
-    type : Number
-  },
   noteTitle: {
     type: String
   },

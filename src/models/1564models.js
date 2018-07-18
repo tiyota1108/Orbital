@@ -17,8 +17,7 @@ export const cardSchema = new Schema({
 
 export const noteSchema = new Schema({
   noteId : {
-    type : Number,
-    required : 'provide noteId'
+    type : Number
   },
   noteTitle: {
     type: String

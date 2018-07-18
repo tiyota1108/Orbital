@@ -34,7 +34,7 @@ export const getNoteWithId = (req, res) => {
 
 export const updateNote = (req, res) => {
   //console.log(typeof req.params.noteId)
-  Note.findOneAndUpdate({noteId : Number(req.params.noteId)},//or {_id: req.params.noteId}
+  Note.findOneAndUpdate({_id : req.params.noteId},//or {_id: req.params.noteId}
 req.body, {new : true}, (err, note) => { //the new option tells it to return the updated one
   if (err) {
     res.send(err);
@@ -44,7 +44,7 @@ req.body, {new : true}, (err, note) => { //the new option tells it to return the
 };
 
 export const deleteNote = (req, res) => {
-  Note.remove({noteId: Number(req.params.noteId)}, (err, note) => {
+  Note.remove({_id: req.params.noteId}, (err, note) => {
   if (err) {
     res.send(err);
   }

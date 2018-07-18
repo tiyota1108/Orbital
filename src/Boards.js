@@ -13,7 +13,6 @@ class Board extends Component {
 		this.eachNote = this.eachNote.bind(this)
 		this.updateTitle = this.updateTitle.bind(this)
 		this.remove = this.remove.bind(this)
-		this.nextNoteId = this.nextNoteId.bind(this) //changed method name to camel case
 		this.postNote = this.postNote.bind(this) //new method to post to server
 	}
 	//retriving data from server before mounting borad
@@ -23,8 +22,14 @@ class Board extends Component {
 				.then(response => response.json())
 				.then(response => {
 					console.log(response);
-					self.setState({notes :response});
-					self.uniquenoteId = response.length;
+					self.setState({
+						notes: response.map(note => (
+							{id: note._id,
+							note: note.noteTitle,
+						cards: note.cards}
+						))
+					})
+					//self.setState({notes :response});
 				})
 				.catch( (error) => {
 				console.log(error);
@@ -33,20 +38,35 @@ class Board extends Component {
 		}
 		//-----------------------------------------------------------------------
 
-	add(note){
-		let generateId = this.nextNoteId();
-		this.postNote("note", "add", generateId, note, []);//posting the new note to the server
-		this.setState(prevState =>({
-			notes:[
-			    ...prevState.notes,
-			    {
-						id:generateId,
-			    	note: note,
-						cards:[]
-			    }
-
-			]
-		}))
+	add(note) {
+		var self = this;
+		fetch('http://localhost:3000/note', {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				noteTitle: note,
+			})
+		})
+		.then(response => response.json())
+		.then(response => {
+			console.log(response);
+			self.setState(prevState =>({
+				notes:[
+				    ...prevState.notes,
+				    {
+							id:response._id,
+				    	note: note,
+							cards:[]
+				    }
+				]
+			}));
+		})
+		.catch( (error) => {
+		console.log(error);
+	})
 	}
 	//method to post note data to server
 	postNote(noteFlag, methodFlag, id, text, cards){
@@ -65,33 +85,56 @@ class Board extends Component {
 			})
 		});
 	}
+	updateTitle(newNoteTitle, i) {
+		var self = this;
+		fetch(`http://localhost:3000/note/${i}`, {
+			method: 'PUT',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				noteTitle: newNoteTitle,
+			})
+		})
+		.then(response => response.json())
+		.then(response => {
+			console.log(response);
+			self.setState(prevState => ({
+				notes: prevState.notes.map(
+					note => (note.id !== i) ? note : {...note,note: newNoteTitle}
+					)
+			}));
+		})
+		.catch( (error) => {
+		console.log(error);
+	})
+	}
 	//------------------------------------------------------------------------
-	nextNoteId(){
-		////change the id generation to give out id from number of elements in the state array
-		//this.uniquenoteId = this.uniquenoteId || 0
-		return this.uniquenoteId++
-	}
-	updateTitle(newNoteTitle,i){
-		console.log('updating note at index',i)
-		this.postNote("note", "update", i, newNoteTitle, []); //post to server, we would not access the last para
-		this.setState(prevState => ({
-			notes: prevState.notes.map(
-				note => (note.id !== i) ? note : {...note,note: newNoteTitle}
-				)
-		}))
-	}
+
 	remove(id) {
 		console.log('removing item at', id)
-		this.postNote("note", "delete", id, "byebye", []) //would not delete the last two variable
-		this.setState(prevState => ({
-			notes: prevState.notes.filter(note => note.id !== id)
-		}))
+		var self = this;
+		fetch(`http://localhost:3000/note/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			}
+		})
+		.then(response => response.json())
+		.then(response => {
+			console.log(response);
+			self.setState(prevState => ({
+				notes: prevState.notes.filter(note => note.id !== id)
+			}));
+		})
+		.catch( (error) => {
+		console.log(error);
+	})
 	}
 
 	eachNote(note, i) {
-		if(note.id === -1) {
-			return;
-		}
 		return (
 			<Note key={note.id}
 				  index={note.id}

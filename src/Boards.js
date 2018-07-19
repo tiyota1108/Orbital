@@ -17,10 +17,21 @@ class Board extends Component {
 	//retriving data from server before mounting borad
 	componentWillMount() {
 		var self = this;
-		fetch(`http://localhost:3000/note`)
+		fetch(`http://localhost:3000/note`, { //added in the second argument to specify token
+			method: 'GET',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'Authorization' : `${localStorage.getItem('jwtToken')}`
+			}
+		})
 				.then(response => response.json())
 				.then(response => {
 					console.log(response);
+					if(response.message !== undefined) {
+						this.props.history.push("/login");
+						console.log("hello");
+					} else {
 					self.setState({
 						notes: response.map(note => (
 							{id: note._id,
@@ -28,6 +39,7 @@ class Board extends Component {
 						cards: note.cards}
 						))
 					})
+				}
 					//self.setState({notes :response});
 				})
 				.catch( (error) => {
@@ -44,6 +56,7 @@ class Board extends Component {
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
+				'Authorization' : `${localStorage.getItem('jwtToken')}`//add token
 			},
 			body: JSON.stringify({
 				noteTitle: note,
@@ -64,6 +77,7 @@ class Board extends Component {
 			}));
 		})
 		.catch( (error) => {
+			if(error.response)
 		console.log(error);
 	})
 	}
@@ -89,9 +103,12 @@ class Board extends Component {
 					)
 			}));
 		})
-		.catch( (error) => {
+		.catch((error) => {
 		console.log(error);
-	})
+		if(error.response.status === 401) {//try to access without authen
+			this.props.history.push("/login");//can directly use history?
+		}
+	});
 	}
 	//------------------------------------------------------------------------
 

@@ -2,6 +2,7 @@ import { addNewNote, getNotes,
 updateNote, deleteNote } from '../controllers/noteController';
 import { addNewCard, getCards,
 updateCard, deleteCard } from '../controllers/cardController'
+import { login, register, loginRequired } from '../controllers/userController';
 
 const routes = (app) => {
   app.route('/note')
@@ -10,20 +11,26 @@ const routes = (app) => {
     console.log(`Request from: ${req.originalUrl}`);
     console.log(`Request type: ${req.method}`);
     next();
-  }, getNotes)
-  .post(addNewNote);
+  }, loginRequired, getNotes)
+  .post(loginRequired, addNewNote);
 
   app.route('/note/:noteId')
-  .put(updateNote)
-  .delete(deleteNote);
+  .put(loginRequired, updateNote)
+  .delete(loginRequired, deleteNote);
 
   app.route('/card/:noteId')
-  .get(getCards)
-  .post(addNewCard);
+  .get(loginRequired, getCards)
+  .post(loginRequired, addNewCard);
 
   app.route('/card/:noteId/:cardId')
-  .put(updateCard)
-  .delete(deleteCard);
+  .put(loginRequired, updateCard)
+  .delete(loginRequired, deleteCard);
+
+  app.route('/auth/register')
+  .post(register);
+
+  app.route('/auth/login')
+  .post(login);
 }
 
 export default routes;

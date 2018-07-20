@@ -47,8 +47,8 @@ class Login extends Component {
             this.setState({ message: 'Login failed. Username or password not match' });
       } else {
 			localStorage.setItem('jwtToken', 'JWT ' + response.token);
-      this.setState({ message: '' });
-      this.props.history.push('/');
+      this.setState({ message: 'Welcome!'});
+      this.props.history.push(`/dashboard/${response.id}`);//get userId from response and pass to url
     }
     })
     .catch((error) => {
@@ -77,6 +77,9 @@ class Login extends Component {
           <button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>
           <p>
             Not a member? <Link to="/register"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Register here</Link>
+          </p>
+          <p>
+            or go back <Link to="/"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> home</Link>
           </p>
         </form>
       </div>

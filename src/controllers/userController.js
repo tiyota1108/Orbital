@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { userSchema } from '../models/userModel';
 import { secret } from '../../config'
 
-const User = mongoose.model('User', userSchema);
+export const User = mongoose.model('User', userSchema);
 
 export const register = (req, res) => {
   const newUser = new User(req.body);
@@ -32,8 +32,11 @@ export const login = (req, res) => {
       if(!user.comparePassword(req.body.password, user.hashPassword)) {
         res.status(401).json({message: "Authentication failed. Wrong password!"});
       } else {
-        res.json({token: jwt.sign({email: user.email, username: user.username,
-        _id: user._id}, secret)});
+        res.json({
+          token: jwt.sign({email: user.email, username: user.username,
+        _id: user._id}, secret),
+      id: user._id
+    });
       }
     }
   });
@@ -43,6 +46,7 @@ export const loginRequired = (req, res, next) => {
   if(req.user) {
     next();
   } else {
+    //console.log("we are here in loginRequired");
     return res.status(401).json({message: "Unauthorized user,please login."});
   }
 }

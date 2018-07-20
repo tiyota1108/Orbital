@@ -1,7 +1,80 @@
 import mongoose from 'mongoose';
-import {noteSchema, cardSchema} from '../models/1564models';
+import {noteSchema, cardSchema, boardSchema} from '../models/1564models';
+import{ Board } from './boardController';
+
+export const addNewNote = (req, res) => {
+  Board.findById(req.params.boardId, (error, parentBoard) => {
+    if(error) {
+      res.send(error);
+    }
+    var newNote = parentBoard.notes.create(req.body);
+    parentBoard.notes.push(newNote);
+    parentBoard.save((err, board) => {
+        if(err) {
+          res.send(err);
+        }
+        res.json(newNote); //send back the note added
+    })
+  });
+}
+
+export const getNotes = (req, res) => {
+  Board.findById(req.params.boardId, (error, parentBoard) => {
+    if(error) {
+      res.send(err);
+    }
+    res.json(parentBoard.notes);
+  });
+};
+
+//for update and delete we only have note id
+export const updateNote = (req, res) => {
+  Board.findOne({'notes._id': `${req.params.noteId}`}, (error, parentBoard) => {
+    if (error) {
+      res.send(err);
+    }
+    var newNote = parentBoard.notes.id(req.params.noteId).set(req.body);
+    parentBoard.save((err, board) => {
+        if(err) {
+          res.send(err);
+        }
+        res.json(newNote);
+    });
+});
+}
+
+export const deleteNote = (req, res) => {
+  Board.findOne({'notes._id': `${req.params.noteId}`}, (error, parentBoard) => {
+    if (error) {
+      res.send(err);
+    }
+    parentBoard.notes.id(req.params.noteId).remove();
+    parentBoard.save((err, note) => {
+        if(err) {
+          res.send(err);
+        }
+        res.json({message : 'delete successful'});
+    });
+});
+};
+
+
+
+
+/*
+i'll save the orginal code here
 
 export const Note = mongoose.model('Note', noteSchema);
+export const getCardWithId = (req, res) => {
+  Note.findById(req.params.noteId, (error, parentNote) => {
+    if (error) {
+      res.send(err);
+    }
+    var card = parentNote.cards.id(req.params.cardId);
+    res.json(card);
+  });
+};//i'll just leave it here first, might not use it
+
 
 export const addNewNote = (req, res) => {
   let newNote = new Note(req.body);
@@ -51,3 +124,5 @@ export const deleteNote = (req, res) => {
   res.json({message: 'delete successful'});
 });
 };
+
+*/

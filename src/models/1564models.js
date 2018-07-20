@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
+
+
 export const cardSchema = new Schema({
   cardContent: {
     type: String
@@ -25,4 +27,21 @@ export const noteSchema = new Schema({
   }
 });
 
-//export default noteSchema;
+export const boardSchema = new Schema({
+  boardTitle: {
+    type: String,
+    default : 'Untitled Board'
+  },
+  mode: {
+    type: String,
+    required: true
+  },
+  notes: {
+    type: [noteSchema],
+    default: []
+  },
+  created_date: {
+    type: Date,
+    default: Date.now
+  }
+});

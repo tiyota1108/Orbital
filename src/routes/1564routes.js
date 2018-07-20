@@ -3,9 +3,21 @@ updateNote, deleteNote } from '../controllers/noteController';
 import { addNewCard, getCards,
 updateCard, deleteCard } from '../controllers/cardController'
 import { login, register, loginRequired } from '../controllers/userController';
+import { addNewBoard, getBoards,
+updateBoard, deleteBoard } from '../controllers/boardController'
 
 const routes = (app) => {
-  app.route('/note')
+  app.route('/board/:userId')
+  .get(loginRequired, getBoards)
+  .post(loginRequired, addNewBoard);
+
+  app.route('/board/:boardId')
+  .put(loginRequired, updateBoard)
+  .delete(loginRequired, deleteBoard);
+
+
+
+  app.route('/note/:boardId')
   .get((req, res, next) => {
     //demo of the middleware
     console.log(`Request from: ${req.originalUrl}`);

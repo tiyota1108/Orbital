@@ -1,15 +1,22 @@
 import mongoose from 'mongoose';
-import {cardSchema} from '../models/1564models';
+import {cardSchema, noteShema, boardSchema} from '../models/1564models';
 import { Note } from './noteController'
+import { Board } from './boardController'
+
 
 export const addNewCard = (req, res) => {
-  Note.findById(req.params.noteId, (error, parentNote) => {
-    if(error) {
+  Board.findOne({'notes._id': `${req.params.noteId}`}, (error, parentBoard) => {
+    if (error) {
       res.send(err);
     }
+    var parentNote = parentBoard.notes.id(req.params.noteId);
+  // parentBoard.findById(req.params.noteId, (error, parentNote) => {
+  //   if(error) {
+  //     res.send(error);
+  //   }
     var newCard = parentNote.cards.create(req.body);
     parentNote.cards.push(newCard);
-    parentNote.save((err, note) => {
+    parentBoard.save((err, note) => {
         if(err) {
           res.send(err);
         }
@@ -19,31 +26,42 @@ export const addNewCard = (req, res) => {
 }
 
 export const getCards = (req, res) => {
-  Note.findById(req.params.noteId, (error, parentNote) => {
-    if(error) {
+  Board.findOne({'notes._id': `${req.params.noteId}`}, (error, parentBoard) => {
+    if (error) {
       res.send(err);
     }
+    var parentNote = parentBoard.notes.id(req.params.noteId);
+    //res.json(parentNote);
+  // Note.findById(req.params.noteId, (error, parentNote) => {
+  //   if(error) {
+  //     res.send(err);
+  //   }
     res.json(parentNote.cards);
   });
 };
 
-export const getCardWithId = (req, res) => {
-  Note.findById(req.params.noteId, (error, parentNote) => {
-    if (error) {
-      res.send(err);
-    }
-    var card = parentNote.cards.id(req.params.cardId);
-    res.json(card);
-  });
-};//i'll just leave it here first, might not use it
+// export const getCardWithId = (req, res) => {
+//   Note.findById(req.params.noteId, (error, parentNote) => {
+//     if (error) {
+//       res.send(err);
+//     }
+//     var card = parentNote.cards.id(req.params.cardId);
+//     res.json(card);
+//   });
+// };//i'll just leave it here first, might not use it
 
 export const updateCard = (req, res) => {
-  Note.findById(req.params.noteId, (error, parentNote) => {
+  Board.findOne({'notes._id': `${req.params.noteId}`}, (error, parentBoard) => {
     if (error) {
       res.send(err);
     }
+    var parentNote = parentBoard.notes.id(req.params.noteId);
+  // Note.findById(req.params.noteId, (error, parentNote) => {
+  //   if (error) {
+  //     res.send(err);
+  //   }
     var newCard = parentNote.cards.id(req.params.cardId).set(req.body);
-    parentNote.save((err, note) => {
+    parentBoard.save((err, note) => {
         if(err) {
           res.send(err);
         }
@@ -53,16 +71,22 @@ export const updateCard = (req, res) => {
 }
 
 export const deleteCard = (req, res) => {
-  Note.findById(req.params.noteId, (error, parentNote) => {
+  Board.findOne({'notes._id': `${req.params.noteId}`}, (error, parentBoard) => {
     if (error) {
       res.send(err);
     }
+    var parentNote = parentBoard.notes.id(req.params.noteId);
+  // Note.findById(req.params.noteId, (error, parentNote) => {
+  //   if (error) {
+  //     res.send(err);
+  //   }
     parentNote.cards.id(req.params.cardId).remove();
-    parentNote.save((err, note) => {
+    parentBoard.save((err, note) => {
         if(err) {
           res.send(err);
         }
         res.json({message : 'delete successful'});
     });
 });
+
 };

@@ -4,9 +4,7 @@ import FaPlus from 'react-icons/lib/fa/plus'
 import FaTrash from 'react-icons/lib/fa/trash'
 import Card from './Card'
 import './boards.css'
-//Boards now is the one with the original data structure and adpted
-//to multi-page. Borads 3 is the one with changed data structure
-//and adaptation to multi-page.Boards_ori is the one without any adaptation
+
 
 const unanthMessage = "Unauthorized user,please login.";
 class Board extends Component {
@@ -23,10 +21,9 @@ class Board extends Component {
 		this.logout = this.logout.bind(this)//add logout method
 	}
 	//retriving data from server before mounting borad
-	componentWillMount() {//should i use will or did
+	componentWillMount() {
 		var self = this;
 		this.boardId = this.props.match.params.id;
-
 		fetch(`http://localhost:3000/note/${this.boardId}`, { //added in the second argument to specify token
 			method: 'GET',
 			headers: {
@@ -40,14 +37,16 @@ class Board extends Component {
 					console.log(response);
 					if(response.message === unanthMessage) {
 						this.props.history.push("/login");
-						//console.log("hello");
 					} else {
 					self.setState({
 						notes: response.map(note => (
 							{id: note._id,
 							note: note.noteTitle,
 						cards: note.cards}
-						))
+          )).reduce((obj, note) => {//reduce the array of note objects to one big object with the _ids as keys
+            obj[note.id] = note;
+            return obj;
+          },{})
 					})
 				}
 					//self.setState({notes :response});
@@ -55,11 +54,12 @@ class Board extends Component {
 				.catch( (error) => {
 				console.log(error);
 			})
+      //console.log(self.state.notes);
 
 		}
 		//-----------------------------------------------------------------------
 
-	add(note) {
+	add(note) {//adapt the setState to add new key-value pair into the notes object
 		var self = this;
 		fetch(`http://localhost:3000/note/${this.boardId}`, {
 			method: 'POST',
@@ -80,14 +80,14 @@ class Board extends Component {
 				//console.log("hello");
 			} else {
 			self.setState(prevState =>({
-				notes:[
+				notes:{
 				    ...prevState.notes,
-				    {
+				    [response._id] : {
 							id:response._id,
 				    	note: note,
 							cards:[]
 				    }
-				]
+				}
 			}));
 		}
 		})
@@ -117,11 +117,10 @@ class Board extends Component {
 				this.props.history.push("/login");
 				//console.log("hello");
 			} else {
-			self.setState(prevState => ({
-				notes: prevState.notes.map(
-					note => (note.id !== i) ? note : {...note,note: newNoteTitle}
-					)
-			}));
+			self.setState(prevState => {
+        prevState.notes[i].note = newNoteTitle;//here cannot use notes.i must use notes[i], thank you 1101S
+        return prevState;
+      });
 		}
 		})
 		.catch((error) => {
@@ -151,9 +150,10 @@ class Board extends Component {
 				this.props.history.push("/login");
 				//console.log("hello");
 			} else {
-			self.setState(prevState => ({
-				notes: prevState.notes.filter(note => note.id !== id)
-			}));
+			self.setState(prevState => {
+        delete prevState.notes[id];
+        return prevState;
+      });
 		}
 		})
 		.catch( (error) => {
@@ -161,14 +161,14 @@ class Board extends Component {
 	})
 	}
 
-	eachNote(note, i) {
+	eachNote(noteId, i) {//pass down the cards objects retrieved from server
 		return (
-			<Note key={note.id}
-				  index={note.id}
-					cards = {note.cards} //pass down the array of cards objects retrieved from server
+			<Note key={noteId}
+				  index={noteId}
+					cards = {this.state.notes[noteId].cards}
 				  onChange={this.updateTitle}
 				  onRemove={this.remove}>
-				  {note.note}
+				  {this.state.notes[noteId].note}
 		    </Note>
 		)
 	}
@@ -179,16 +179,16 @@ class Board extends Component {
     //window.location.reload();
   }
 
-	render() {//temporary logout button here
+	render() {//temporary logout button here,//pass each of the note id to the eachNote function
 		return (
 			<div className="board">
-				{this.state.notes.map(this.eachNote)}
+				{Object.keys(this.state.notes).map(this.eachNote)}
 				<button onClick={this.add.bind(null, "New Note")}
 						id="add">
 					<FaPlus />
 				</button>
 				{localStorage.getItem('jwtToken') &&
-						<button className="btn btn-primary" onClick={this.logout}>Logout</button>
+						<button class="btn btn-primary" onClick={this.logout}>Logout</button>
 					}
 			</div>
 		)

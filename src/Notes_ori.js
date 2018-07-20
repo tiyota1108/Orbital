@@ -5,8 +5,6 @@ import FaPencil from 'react-icons/lib/fa/pencil'
 import FaTrash from 'react-icons/lib/fa/trash'
 import FaFloppyO from 'react-icons/lib/fa/floppy-o'
 
-const unanthMessage = "Unauthorized user,please login.";
-
 class Note extends Component {
 	constructor(props) {
 		super(props)
@@ -51,10 +49,7 @@ class Note extends Component {
 			cards: this.props.cards.map(card => (
 				{id: card._id,
 				card: card.cardContent}
-			)).reduce((obj, note) => {//reduce the array of note objects to one big object with the _ids as keys
-        obj[note.id] = note;
-        return obj;
-      },{})
+			))
 		});
 	}
 
@@ -89,7 +84,6 @@ class Note extends Component {
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
-        'Authorization' : `${localStorage.getItem('jwtToken')}`,
 			},
 			body: JSON.stringify({
 				cardContent: text,
@@ -98,19 +92,15 @@ class Note extends Component {
 		.then(response => response.json())
 		.then(response => {
 			console.log(response);
-      if(response.message === unanthMessage) {
-        this.props.history.push("/login");
-      } else {
 			self.setState(prevState =>({
-				cards:{
+				cards:[
 						...prevState.cards,
-						[response._id] : {
+						{
 							id:response._id,
 							card:text
 						}
-				}
+				]
 			}));
-    }
 		})
 		.catch( (error) => {
 		console.log(error);
@@ -125,7 +115,6 @@ class Note extends Component {
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
-        'Authorization' : `${localStorage.getItem('jwtToken')}`,
 			},
 			body: JSON.stringify({
 				cardContent: newText,
@@ -134,14 +123,11 @@ class Note extends Component {
 		.then(response => response.json())
 		.then(response => {
 			console.log(response);
-      if(response.message === unanthMessage) {
-        this.props.history.push("/login");
-      } else {
-			self.setState(prevState => {
-        prevState.cards[i].card = newText;//here cannot use notes.i must use notes[i], thank you 1101S
-        return prevState;
-      });
-    }
+			self.setState(prevState => ({
+				cards: prevState.cards.map(
+					card => (card.id !== i) ? card : {...card,card: newText}
+					)
+			}));
 		})
 		.catch( (error) => {
 		console.log(error);
@@ -161,20 +147,14 @@ class Note extends Component {
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
-        'Authorization' : `${localStorage.getItem('jwtToken')}`,
 			}
 		})
 		.then(response => response.json())
 		.then(response => {
 			console.log(response);
-      if(response.message === unanthMessage) {
-        this.props.history.push("/login");
-      } else {
-      self.setState(prevState => {
-        delete prevState.cards[id];
-        return prevState;
-      });
-    }
+			self.setState(prevState => ({
+				cards: prevState.cards.filter(card => card.id !== id)
+			}));
 		})
 		.catch( (error) => {
 		console.log(error);
@@ -182,13 +162,13 @@ class Note extends Component {
 	}
 
 
-	eachCard(cardId, i) {
+	eachCard(card, i) {
 		return (
-			<Card key={cardId}
-				  index={cardId}
+			<Card key={card.id}
+				  index={card.id}
 				  onChange={this.update}
 				  onRemove={this.removeCard}>
-				  {this.state.cards[cardId].card}
+				  {card.card}
 		    </Card>
 		)
 	}
@@ -213,7 +193,7 @@ class Note extends Component {
 				<button onClick={this.remove} id="remove"><FaTrash /></button>
 				<button onClick={this.editTitle} id="edit"><FaPencil /></button>
 
-				{Object.keys(this.state.cards).map(this.eachCard)}
+				{this.state.cards.map(this.eachCard)}
 				<span>
 				<button onClick={this.add.bind(null,"New Card")}
 				    id="add">
@@ -229,6 +209,12 @@ class Note extends Component {
 	render() {
 		return this.state.editingTitle ? this.renderForm() : this.renderDisplay()
 	}
+
+
+
+
+
+
 }
 
 export default Note

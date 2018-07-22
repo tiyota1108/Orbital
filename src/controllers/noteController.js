@@ -23,7 +23,9 @@ export const getNotes = (req, res) => {
     if(error) {
       res.send(err);
     }
-    res.json(parentBoard.notes);
+    res.json(parentBoard);//we send over the whole board here
+    //res.json(parentBoard.notes);
+
   });
 };
 

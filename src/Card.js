@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import FaPencil from 'react-icons/lib/fa/pencil'
 import FaTrash from 'react-icons/lib/fa/trash'
 import FaFloppyO from 'react-icons/lib/fa/floppy-o'
+import './card.css'
 
 class Card extends Component{
 	constructor(props){
@@ -54,11 +55,11 @@ class Card extends Component{
         console.log('do validate');
         }
     }
-	renderForm(){
+	renderForm(){//style={this.style}
 		return (
-			<div className="card" style={this.style}>
+			<div className="card" >
 			    <form onSubmit={this.save}>
-			        <textarea ref={input => this._newText = input} 
+			        <textarea ref={input => this._newText = input}
 			            defaultValue={this.props.children}/>
 			        <button id="save"><FaFloppyO/></button>
 
@@ -68,9 +69,9 @@ class Card extends Component{
 		)
 	}
 
-	renderDisplay(){
+	renderDisplay(){//style={this.style}
 		return (
-			<div className="card" style={this.style}>
+			<div className="card" >
 			    <p>{this.props.children}</p>
 			    <span>
 			        <button onClick={this.edit} id="edit"><FaPencil /></button>
@@ -81,7 +82,7 @@ class Card extends Component{
 	}
 	render(){
 		return this.state.editing ? this.renderForm():this.renderDisplay()
-		
+
 
 	}
 }

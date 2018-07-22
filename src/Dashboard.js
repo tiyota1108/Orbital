@@ -106,7 +106,7 @@ class Dashboard extends Component{
         <div className = "Add-Boards">
           <p>or, create new boards</p>
           <button onClick={()=>this.add("daylight")}>daylight mode</button>
-          <button onClick={()=>this.add("dairy")}>dairy mode</button>
+          <button onClick={()=>this.add("diary")}>diary mode</button>
           <button onClick={()=>this.add("night")}>night mode</button>
         </div>
       </div>

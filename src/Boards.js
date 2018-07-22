@@ -15,7 +15,7 @@ class Board extends Component {
 		this.state = {
 			notes: []
 		}
-		var userId;
+		var boardId;
 		this.add = this.add.bind(this)
 		this.eachNote = this.eachNote.bind(this)
 		this.updateTitle = this.updateTitle.bind(this)
@@ -43,7 +43,8 @@ class Board extends Component {
 						//console.log("hello");
 					} else {
 					self.setState({
-						notes: response.map(note => (
+						mode: response.mode,
+						notes: response.notes.map(note => (
 							{id: note._id,
 							note: note.noteTitle,
 						cards: note.cards}
@@ -165,6 +166,8 @@ class Board extends Component {
 		return (
 			<Note key={note.id}
 				  index={note.id}
+					mode = {this.state.mode
+				}
 					cards = {note.cards} //pass down the array of cards objects retrieved from server
 				  onChange={this.updateTitle}
 				  onRemove={this.remove}>
@@ -181,8 +184,10 @@ class Board extends Component {
 
 	render() {//temporary logout button here
 		return (
-			<div className="board">
+			<div className={`board_${this.state.mode}`}>
+				<div className ="Grid">
 				{this.state.notes.map(this.eachNote)}
+				</div>
 				<button onClick={this.add.bind(null, "New Note")}
 						id="add">
 					<FaPlus />

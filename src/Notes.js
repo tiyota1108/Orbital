@@ -4,6 +4,8 @@ import FaPlus from 'react-icons/lib/fa/plus'
 import FaPencil from 'react-icons/lib/fa/pencil'
 import FaTrash from 'react-icons/lib/fa/trash'
 import FaFloppyO from 'react-icons/lib/fa/floppy-o'
+import './notes.css'
+
 
 const unanthMessage = "Unauthorized user,please login.";
 
@@ -196,7 +198,7 @@ class Note extends Component {
 	renderForm() {
 		console.log('render Form')
 		return (
-			<div className="note" >
+			<div className={`note_${this.props.mode}`} >
 				<form onSubmit={this.saveTitle}>
 					<textarea ref={input => this._newTextTitle = input}
 							  defaultValue={this.props.children}/>
@@ -208,7 +210,7 @@ class Note extends Component {
 
 	renderDisplay() {
 		return (
-			<div className="note" >
+			<div className={`note_${this.props.mode}`} >
 				<p>{this.props.children}</p>
 				<button onClick={this.remove} id="remove"><FaTrash /></button>
 				<button onClick={this.editTitle} id="edit"><FaPencil /></button>
@@ -219,10 +221,7 @@ class Note extends Component {
 				    id="add">
 				    <FaPlus />
 				</button>
-
 				</span>
-
-
 			</div>
 		)
 	}

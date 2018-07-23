@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './lost.css';
 const Lost = () => {
   return (
     <div>
@@ -29,8 +29,23 @@ const Lost = () => {
         Chaipa koda mila toka bocca pis-sa la lasagnaaa
         Moka coca pila caca fissa bella lamassala
         Papa mama loca pita pola gusta la rumbadaaa
-
+        note-flip
       </p>
+
+      <div className = "flip-container">
+      <div className = "note">
+
+      <div className = "front">
+      <p>jello</p>
+      </div>
+
+      <div className = "back">
+      <p>lililili</p>
+      </div>
+
+      </div>
+      </div>
+
     </div>
   )
 }

@@ -1,51 +1,77 @@
-div.note_daylight {
+.flip-container {
+  perspective: 1000px;
+  width: 300px;
+  height: 250px;
+  overflow: auto;
+}
+
+.note_daylight {
   box-shadow: 6px 6px 4px 0 rgba(0, 0, 0, 0.3);
-  transition: 0.3s;
     /* float:left; */
+
     width: 250px;
     margin: 20px;
     height: 200px; /*if you do not specify, this will auto adjust*/
     border-radius: 3%;
     background:#fffdf0;
     position:relative;
-    overflow: auto;
+    transition: 0.6s;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    /*added in cursor for note*/
+    /* overflow: inherit; */
     /*background: -moz-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
     background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(57%, #eab92d), color-stop(99%, #c79810));
     background: -webkit-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
     background: -o-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
     background: -ms-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
     background: radial-gradient(ellipse at center, #eab92d 57%, #c79810 99%);*/
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1);
+    /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1); */
 
+}
+/* .flip-container:hover .note_daylight{
+  transform: rotateY(180deg);
+} */
+.flipped {
+  transform: rotateY(180deg);
+}
+
+.front, .back {
+  backface-visibility: hidden;
+  position: absolute;
+  top:0;
+  left:0;
+  /* width: 250px; */
+  height: 200px;
+}
+.front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+.back {
+  transform: rotateY(180deg);
 }
 
 div.note_daylight p {
   font-size: 20px;
-  font-family: "Didot","Apple Chancery",sans-serif; /*might need to check*/
+  font-family: "Didot","Apple Chancery",sans-serif;
   color: rgb(67, 36, 17);
   line-height: 1.2;
   text-align: center;
   position: relative;
 }
-/*
-div.note p{
-    font-size: 16px;
-    text-align: center;
-    padding:3px;
-    font-family:
-    font-family: "Shadows Into Light", Arial;
-} */
+
 div.note_daylight button {
   position:relative;
   color: #fff;
   font-size: 14px;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
 }
+
 /*------------------------------------------------------*/
 div.note_night {
   box-shadow: 6px 6px 4px 0 rgba(0, 0, 0, 0.3);
   transition: 0.3s;
-    /* float:left; */
     width: 250px;
     margin: 20px;
     height: 200px; /*if you do not specify, this will auto adjust*/
@@ -53,33 +79,19 @@ div.note_night {
     background:rgb(234, 234, 234);
     position:relative;
     overflow: auto;
-    /*background: -moz-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(57%, #eab92d), color-stop(99%, #c79810));
-    background: -webkit-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
-    background: -o-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
-    background: -ms-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
-    background: radial-gradient(ellipse at center, #eab92d 57%, #c79810 99%);*/
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1);
 
 }
 
-
 div.note_night p {
   font-size: 20px;
-  font-family: "Didot","Apple Chancery",sans-serif; /*might need to check*/
+  font-family: "Didot", "Apple Chancery", sans-serif; /*might need to check*/
   color: rgb(67, 36, 17);
   line-height: 1.2;
   text-align: center;
   position: relative;
 }
-/*
-div.note p{
-    font-size: 16px;
-    text-align: center;
-    padding:3px;
-    font-family:
-    font-family: "Shadows Into Light", Arial;
-} */
+
 div.note_night button {
   position:relative;
   color: #fff;
@@ -87,6 +99,38 @@ div.note_night button {
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
 }
 /*------------------------------------------------------*/
+div.note_diary {
+  box-shadow: 6px 6px 4px 0 rgba(0, 0, 0, 0.3);
+  transition: 0.3s;
+    width: 250px;
+    margin: 20px;
+    height: 200px; /*if you do not specify, this will auto adjust*/
+    border-radius: 3%;
+    background:rgb(254, 252, 239);
+    position:relative;
+    overflow: auto;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1);
+
+}
+
+
+div.note_diary p {
+  font-size: 20px;
+  font-family: "PT Sans Narrow","Myriad Pro", sans-serif; /*might need to check*/
+  color: rgb(67, 36, 17);
+  line-height: 1.2;
+  text-align: center;
+  position: relative;
+}
+
+
+
+div.note_diary button {
+  position:relative;
+  color: #fff;
+  font-size: 14px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
+}
 /*------------------------------------------------------*/
 
 #add {

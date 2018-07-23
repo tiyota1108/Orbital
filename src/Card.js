@@ -57,7 +57,7 @@ class Card extends Component{
     }
 	renderForm(){//style={this.style}
 		return (
-			<div className="card" >
+			<div className={`card_${this.props.mode}`} >
 			    <form onSubmit={this.save}>
 			        <textarea ref={input => this._newText = input}
 			            defaultValue={this.props.children}/>
@@ -71,7 +71,7 @@ class Card extends Component{
 
 	renderDisplay(){//style={this.style}
 		return (
-			<div className="card" >
+			<div className={`card_${this.props.mode}`} >
 			    <p>{this.props.children}</p>
 			    <span>
 			        <button onClick={this.edit} id="edit"><FaPencil /></button>

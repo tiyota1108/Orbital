@@ -14,7 +14,7 @@ class Note extends Component {
 		super(props)
 		this.state = {
 			cards: [],
-			editingTitle:false
+			editingTitle:false,
 		}
 		this.add = this.add.bind(this)
 		this.eachCard = this.eachCard.bind(this)
@@ -50,6 +50,7 @@ class Note extends Component {
 	//load cards retrieved from server on each note
 	componentWillMount() {
 		this.setState({
+			animation: this.props.animation,
 			cards: this.props.cards.map(card => (
 				{id: card._id,
 				card: card.cardContent}
@@ -188,7 +189,8 @@ class Note extends Component {
 		return (
 			<Card key={cardId}
 				  index={cardId}
-				  onChange={this.update}
+					mode = {this.props.mode}
+					onChange={this.update}
 				  onRemove={this.removeCard}>
 				  {this.state.cards[cardId].card}
 		    </Card>
@@ -198,7 +200,7 @@ class Note extends Component {
 	renderForm() {
 		console.log('render Form')
 		return (
-			<div className={`note_${this.props.mode}`} >
+			<div>
 				<form onSubmit={this.saveTitle}>
 					<textarea ref={input => this._newTextTitle = input}
 							  defaultValue={this.props.children}/>
@@ -210,7 +212,7 @@ class Note extends Component {
 
 	renderDisplay() {
 		return (
-			<div className={`note_${this.props.mode}`} >
+			<div>
 				<p>{this.props.children}</p>
 				<button onClick={this.remove} id="remove"><FaTrash /></button>
 				<button onClick={this.editTitle} id="edit"><FaPencil /></button>
@@ -225,8 +227,60 @@ class Note extends Component {
 			</div>
 		)
 	}
+// className={`note_${this.props.mode}`}
+	renderDisplay_back() {
+		return (
+			<div>
+				<p>{this.props.children}</p>
+				<button onClick={this.remove} id="remove"><FaTrash /></button>
+				<button onClick={this.editTitle} id="edit"><FaPencil /></button>
+			</div>
+		)
+	}
+	// render() {
+	// 	console.log("this state is" + this.props.animation );
+	// 	return (
+	// 		<div className = "flip-container">
+	// 		<div className = {`note_${this.props.mode}${this.props.animation}`}>
+	// 			<div className = "front" onClick = {() => this.props.onFlip(this.props.index, " flipped")}>
+	// 				{this.state.editingTitle ? this.renderForm() : this.renderDisplay()}
+	// 			</div>
+	// 			<div className = "back" onClick = {() => this.props.onFlip(this.props.index, "")}>
+	// 				{this.state.editingTitle ? this.renderForm() : this.renderDisplay_back()}
+	// 			</div>
+	// 		</div>
+	// 		</div>
+	// 	)
+	// 	// return this.state.editingTitle ? this.renderForm() : this.renderDisplay()
+	// }
 	render() {
-		return this.state.editingTitle ? this.renderForm() : this.renderDisplay()
+		console.log("this state is" + this.props.animation );
+		return (
+			<div className = "flip-container">
+			<div className = {`note_${this.props.mode}${this.state.animation}`}>
+				<div className = "front" onClick = {() => this.props.onFlip(this.props.index, " flipped")}>
+					<p>{this.props.children}</p>
+					<button onClick={this.remove} id="remove"><FaTrash /></button>
+					<button onClick={this.editTitle} id="edit"><FaPencil /></button>
+
+					{Object.keys(this.state.cards).map(this.eachCard)}
+					<span>
+					<button onClick={this.add.bind(null,"New Card")}
+					    id="add">
+					    <FaPlus />
+					</button>
+					</span>
+				</div>
+				<div className = "back" onClick = {() => this.props.onFlip(this.props.index, "")}>
+					<p>{this.props.children}</p>
+					<button onClick={this.remove} id="remove"><FaTrash /></button>
+					<button onClick={this.editTitle} id="edit"><FaPencil /></button>
+
+					</div>
+			</div>
+			</div>
+		)
+		// return this.state.editingTitle ? this.renderForm() : this.renderDisplay()
 	}
 }
 

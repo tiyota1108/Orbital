@@ -87,7 +87,13 @@ class Dashboard extends Component{
 
   eachBoard(board, i) {
     return (
-      <Link to={`/board/${board.boardId}`} key={i}>{board.boardTitle}, {board.mode}</Link>
+      <Link to={{
+				pathname : `/board/${board.boardId}`,
+				state : {
+				userId : this.userId,
+				boardId : board.boardId
+			}
+			}} key={i}>{board.boardTitle}, {board.mode}</Link>
     )
   }
 

@@ -14,6 +14,10 @@ export const cardSchema = new Schema({
 });
 
 export const noteSchema = new Schema({
+  animation: {
+    type:String,
+    default: ""
+  },
   noteTitle: {
     type: String
   },

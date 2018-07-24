@@ -1,42 +1,97 @@
-/* body {
+body {
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #eee;
-} */
-
-.form-signin {
-  max-width: 330px;
-  padding: 15px;
-  margin: 0 auto;
+  background:url('/signup_background.png') no-repeat center center fixed;
+} 
+@import url(http://fonts.googleapis.com/css?family=Shadows+Into+Light);
+.container{
+  background-position: center;
+  margin-top: 150px auto;
+  
 }
-.form-signin .form-signin-heading,
+.container .form-signin {
+  height:80%;
+  max-width: 24%;
+  padding: 15px;
+  margin: 10% auto;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  background: rgba(256,256,256,0.7);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.7);
+  padding: 30px;
+}
+.container .form-signin .form-signin-heading{
+  text-align:center;
+  font-family: "Freight Sans","Roboto",sans-serif;
+  margin: 0 0 15px;
+}
 .form-signin .checkbox {
   margin-bottom: 10px;
+  padding: 30px;
 }
-.form-signin .checkbox {
-  font-weight: normal;
-}
-.form-signin .form-control {
+
+.container .form-signin .form-control {
   position: relative;
-  height: auto;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  min-height: 38px;
+  background: #f0f0f0;
+  box-sizing: border-box;
+  border-radius: 5px 5px 5px 5px;
+  border-width: 0.1px;
+  border-style:ridge;
+  border-color:rgba(240,240,240,0.5);
   padding: 10px;
   font-size: 16px;
+  font-family: "Freight Sans","Roboto",sans-serif;
+  
 }
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
+
+.container .form-signin input[type="email"] {
   margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 5px 5px 5px 5px;
 }
-.form-signin p {
-  margin-top: 10px;
+.container .form-signin input[type="password"] {
+  margin-bottom: 10px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 5px 5px 5px 5px;
+}
+.container .hint{
+  margin-top: -5px;
+  margin-left:36%;
+  float: left;
+  font-size: 13px;
+  font-family: "Freight Sans","Roboto",sans-serif;
+  font-size-adjust: 0.25;
+
+}
+.container .hint2{
+  margin-top: -5px;
+  margin-right:36%;
+  float: right;
+  font-size: 13px;
+  font-family: "Freight Sans","Roboto",sans-serif;
+  font-size-adjust: 0.25;
+}
+
+.form-signin .btn{
+  align-self:center;
+  border-radius: 5px 5px 5px 5px;
+  border-color: rgba(256,256,256,0.5);
+  border-style:none;
+  color: white;
+  padding: 10px 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 20px;
+  letter-spacing: 1px;
+  font-family: "Freight Sans","Roboto",sans-serif;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  background: #3797f0;
+  font-style: ;
 }

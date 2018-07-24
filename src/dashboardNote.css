@@ -59,6 +59,22 @@ div.container > textarea {
     height: 55%;
     background: rgba(255, 255, 255, .5);
 }
+textarea{
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none; 
+  background-color: transparent;
+  -webkit-appearance:none;
+  font-size: 14px;
+  font-family: "Apple Chancery","Didot",serif; /*might need to check*/
+  color: rgb(67, 36, 17);
+  line-height: 1.2;
+  text-align: left;
+  padding: 7px;
+}
 
 .newBoardButton {
   box-shadow: 3px 4px 4px 0 rgba(0, 0, 0, 0.5);

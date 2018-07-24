@@ -72,7 +72,7 @@ class Card extends Component{
 	renderDisplay(){//style={this.style}
 		return (
 			<div className={`card_${this.props.mode}`} >
-			    <p>{this.props.children}</p>
+			    <p onClick={this.edit}>{this.props.children}</p>
 			    <span>
 			        <button onClick={this.edit} id="edit"><FaPencil /></button>
 			        <button onClick={this.remove} id="remove"><FaTrash /></button>

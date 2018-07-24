@@ -7,6 +7,7 @@
   overflow: auto;
   cursor: pointer;
   box-shadow: 6px 6px 4px 0 rgba(0, 0, 0, 0.3);
+  resize: vertical;
 
 }
 .note {
@@ -15,6 +16,7 @@
     position:relative;
     transition: 0.6s;
     transform-style: preserve-3d;
+    resize: vertical;
     /*the filter doent seem to conflict with the flip*/
     /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1); */
 }
@@ -49,6 +51,7 @@
 }
 
 .note p {
+  margin:5% auto;
   font-size: 20px;
   line-height: 1.2;
   text-align: center;

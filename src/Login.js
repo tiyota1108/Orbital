@@ -25,28 +25,28 @@ class Login extends Component {
 
     const { username, password } = this.state;
     fetch(`http://localhost:3000/auth/login`, {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				email: username,//i just use the username to fake the unique email first
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: username,//i just use the username to fake the unique email first
         password: password
-			})
-		})
+      })
+    })
     // .then(response => {
     //   if(response.status === 401) {
     //     this.setState({ message: 'Login failed. Username or password not match' });
     //   }
     // })
-		.then(response => response.json())
+    .then(response => response.json())
     .then(response => {
-			console.log(response);
+      console.log(response);
       if(response.message !== undefined) {
             this.setState({ message: 'Login failed. Username or password not match' });
       } else {
-			localStorage.setItem('jwtToken', 'JWT ' + response.token);
+      localStorage.setItem('jwtToken', 'JWT ' + response.token);
       this.setState({ message: 'Welcome!'});
       this.props.history.push(`/dashboard/${response.id}`);//get userId from response and pass to url
     }
@@ -69,20 +69,24 @@ class Login extends Component {
               { message }
             </div>
           }
-          <h2 className="form-signin-heading">Please sign in</h2>
-          <label htmlFor="inputEmail" className="sr-only">Email address</label>
+          <h2 className="form-signin-heading">SIGN IN</h2>
+          
+          <label htmlFor="inputEmail" className="sr-only"></label>
           <input type="email" className="form-control" placeholder="Email address" name="username" value={username} onChange={this.onChange} required/>
-          <label htmlFor="inputPassword" className="sr-only">Password</label>
+          <label htmlFor="inputPassword" className="sr-only"></label>
           <input type="password" className="form-control" placeholder="Password" name="password" value={password} onChange={this.onChange} required/>
-          <button className="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-          <p>
-            Not a member? <Link to="/register"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Register here</Link>
-          </p>
-          <p>
-            or go back <Link to="/"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> home</Link>
-          </p>
+          
+          <button className="btn" type="submit">Login</button>
         </form>
+        <p class="hint">
+          Not A Member? <Link to="/register"> Register Here</Link>
+      </p>
+      <p class="hint2">
+          Or Go Back <Link to="/">Home</Link>
+      </p>
+    
       </div>
+      
     );
   }
 }

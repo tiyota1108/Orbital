@@ -25,7 +25,7 @@ div.note {
     margin:5px;
     height: 200px;
     border-radius: 5%;
-    background:#fffcf9;
+    /* background:#fffcf9; */
     position:relative;
     overflow: auto;
     /*background: -moz-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);

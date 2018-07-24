@@ -15,6 +15,7 @@ class Note extends Component {
 		this.state = {
 			cards: [],
 			editingTitle:false,
+			effect:" animated slideInUp"
 		}
 		this.add = this.add.bind(this)
 		this.eachCard = this.eachCard.bind(this)
@@ -50,7 +51,6 @@ class Note extends Component {
 	//load cards retrieved from server on each note
 	componentWillMount() {
 		this.setState({
-			animation: this.props.animation,
 			cards: this.props.cards.map(card => (
 				{id: card._id,
 				card: card.cardContent}
@@ -65,9 +65,11 @@ class Note extends Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return (
-			this.props.children !== nextProps.children || this.state !== nextState
+			this.props!== nextProps|| this.state !== nextState
 		)
 	}
+	//			this.props.children !== nextProps.children || this.state !== nextState || this.props.animation !== nextProps.animation
+
 
 	editTitle(){
 		console.log('edit title')
@@ -79,7 +81,8 @@ class Note extends Component {
 
 	saveTitle(e){
 		e.preventDefault()
-		this.props.onChange(this._newTextTitle.value,this.props.index)
+		var noteSide = this.props.animation === " flipped"? "back" : "front";
+		this.props.onChange(this[noteSide].value,this.props.index)
 		this.setState({
 			editingTitle: false
 		})
@@ -197,18 +200,26 @@ class Note extends Component {
 		)
 	}
 
-	renderForm() {
+	renderForm(side) {
 		console.log('render Form')
 		return (
 			<div>
 				<form onSubmit={this.saveTitle}>
-					<textarea ref={input => this._newTextTitle = input}
+					<textarea ref={input => this[side] = input}
 							  defaultValue={this.props.children}/>
 					<button id="save"><FaFloppyO /></button>
 				</form>
 			</div>
 		)
 	}
+	/*
+	here i basically give a different variable name for the
+	input inside the textbox depending on which side the notes are
+	on. and updated saveTitle accordingly. cuz if not, we would
+	only be able to update noteTitle from the backside,not the
+	front side.
+						<textarea ref={input => this._newTextTitle = input}
+*/
 
 	renderDisplay() {
 		return (
@@ -227,7 +238,6 @@ class Note extends Component {
 			</div>
 		)
 	}
-// className={`note_${this.props.mode}`}
 	renderDisplay_back() {
 		return (
 			<div>
@@ -237,51 +247,52 @@ class Note extends Component {
 			</div>
 		)
 	}
-	// render() {
-	// 	console.log("this state is" + this.props.animation );
-	// 	return (
-	// 		<div className = "flip-container">
-	// 		<div className = {`note_${this.props.mode}${this.props.animation}`}>
-	// 			<div className = "front" onClick = {() => this.props.onFlip(this.props.index, " flipped")}>
-	// 				{this.state.editingTitle ? this.renderForm() : this.renderDisplay()}
-	// 			</div>
-	// 			<div className = "back" onClick = {() => this.props.onFlip(this.props.index, "")}>
-	// 				{this.state.editingTitle ? this.renderForm() : this.renderDisplay_back()}
-	// 			</div>
-	// 		</div>
-	// 		</div>
-	// 	)
-	// 	// return this.state.editingTitle ? this.renderForm() : this.renderDisplay()
-	// }
+
+
 	render() {
 		console.log("this state is" + this.props.animation );
 		return (
-			<div className = "flip-container">
-			<div className = {`note_${this.props.mode}${this.state.animation}`}>
-				<div className = "front" onClick = {() => this.props.onFlip(this.props.index, " flipped")}>
-					<p>{this.props.children}</p>
-					<button onClick={this.remove} id="remove"><FaTrash /></button>
-					<button onClick={this.editTitle} id="edit"><FaPencil /></button>
-
-					{Object.keys(this.state.cards).map(this.eachCard)}
-					<span>
-					<button onClick={this.add.bind(null,"New Card")}
-					    id="add">
-					    <FaPlus />
-					</button>
-					</span>
+			<div className = {`flip-container note_${this.props.mode}${this.state.effect}`}>
+			<div className = {`note_${this.props.mode}`}>
+			{
+				this.state.editingTitle ? this.renderForm(this.props.animation === " flipped" ? "back" : "front") : (
+				<div className = {`note note_${this.props.mode}${this.props.animation}`}>
+				<div className = "front" onDoubleClick = {() => this.props.onFlip(this.props.index, " flipped")}>
+								 {this.renderDisplay()}
 				</div>
-				<div className = "back" onClick = {() => this.props.onFlip(this.props.index, "")}>
-					<p>{this.props.children}</p>
-					<button onClick={this.remove} id="remove"><FaTrash /></button>
-					<button onClick={this.editTitle} id="edit"><FaPencil /></button>
-
+				<div className = "back-container back" onDoubleClick = {() => this.props.onFlip(this.props.index, "")}>
+								{this.renderDisplay_back()}
 					</div>
+					</div>
+				)}
 			</div>
 			</div>
 		)
 		// return this.state.editingTitle ? this.renderForm() : this.renderDisplay()
 	}
+
 }
 
-export default Note
+
+export default Note;
+
+//the first working render method. i want to disablt the card flip effect while renderingForm
+//as users are highly likely to double click while inputing text. so i replaced it
+// render() {
+// 	console.log("this state is" + this.props.animation );
+// 	return (
+// 		<div className = {`flip-container note_${this.props.mode}${this.state.effect}`}>
+// 		<div className = {`note note_${this.props.mode}${this.props.animation}`}>
+// 			<div className = "front" onDoubleClick = {() => this.props.onFlip(this.props.index, " flipped")}>
+// 							{this.state.editingTitle ? this.renderForm("front") : this.renderDisplay()}
+// 			</div>
+// 			<div className = "back-container back" onDoubleClick = {() => this.props.onFlip(this.props.index, "")}>
+// 							{this.state.editingTitle ? this.renderForm("back") : this.renderDisplay_back()}
+//
+//
+// 				</div>
+// 		</div>
+// 		</div>
+// 	)
+// 	// return this.state.editingTitle ? this.renderForm() : this.renderDisplay()
+// }

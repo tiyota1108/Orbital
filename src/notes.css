@@ -1,37 +1,33 @@
 .flip-container {
+  margin: 20px;
+  border-radius: 3%;
   perspective: 1000px;
-  width: 300px;
-  height: 250px;
+  width: 250px;
+  height: 200px;
   overflow: auto;
-}
-
-.note_daylight {
+  cursor: pointer;
   box-shadow: 6px 6px 4px 0 rgba(0, 0, 0, 0.3);
-    /* float:left; */
 
-    width: 250px;
-    margin: 20px;
-    height: 200px; /*if you do not specify, this will auto adjust*/
-    border-radius: 3%;
-    background:#fffdf0;
+}
+.note {
+    width: 100%;
+    height: 100%;
     position:relative;
     transition: 0.6s;
-    cursor: pointer;
     transform-style: preserve-3d;
-    /*added in cursor for note*/
-    /* overflow: inherit; */
-    /*background: -moz-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(57%, #eab92d), color-stop(99%, #c79810));
-    background: -webkit-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
-    background: -o-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
-    background: -ms-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
-    background: radial-gradient(ellipse at center, #eab92d 57%, #c79810 99%);*/
+    /*the filter doent seem to conflict with the flip*/
     /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1); */
-
 }
-/* .flip-container:hover .note_daylight{
-  transform: rotateY(180deg);
-} */
+
+.back-container {
+  padding: 50px 0px;
+  text-align: center;
+}
+
+.back-container p {
+  padding-bottom: 40px;
+}
+
 .flipped {
   transform: rotateY(180deg);
 }
@@ -41,7 +37,7 @@
   position: absolute;
   top:0;
   left:0;
-  /* width: 250px; */
+  width: 250px;
   height: 200px;
 }
 .front {
@@ -52,84 +48,50 @@
   transform: rotateY(180deg);
 }
 
-div.note_daylight p {
+.note p {
   font-size: 20px;
+  line-height: 1.2;
+  text-align: center;
+  position: relative;
+}
+
+
+div.note button {
+  position:relative;
+  color: #fff;
+  font-size: 14px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
+}
+/*------------------------------------------------------*/
+
+.note_daylight {
+
+  background:#fffdf0;
+}
+
+.note_daylight p{
   font-family: "Didot","Apple Chancery",sans-serif;
   color: rgb(67, 36, 17);
-  line-height: 1.2;
-  text-align: center;
-  position: relative;
-}
-
-div.note_daylight button {
-  position:relative;
-  color: #fff;
-  font-size: 14px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
 }
 
 /*------------------------------------------------------*/
-div.note_night {
-  box-shadow: 6px 6px 4px 0 rgba(0, 0, 0, 0.3);
-  transition: 0.3s;
-    width: 250px;
-    margin: 20px;
-    height: 200px; /*if you do not specify, this will auto adjust*/
-    border-radius: 3%;
+.note_night {
     background:rgb(234, 234, 234);
-    position:relative;
-    overflow: auto;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1);
-
 }
 
-div.note_night p {
-  font-size: 20px;
+.note_night p {
   font-family: "Didot", "Apple Chancery", sans-serif; /*might need to check*/
   color: rgb(67, 36, 17);
-  line-height: 1.2;
-  text-align: center;
-  position: relative;
-}
-
-div.note_night button {
-  position:relative;
-  color: #fff;
-  font-size: 14px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
 }
 /*------------------------------------------------------*/
-div.note_diary {
-  box-shadow: 6px 6px 4px 0 rgba(0, 0, 0, 0.3);
-  transition: 0.3s;
-    width: 250px;
-    margin: 20px;
-    height: 200px; /*if you do not specify, this will auto adjust*/
-    border-radius: 3%;
+.note_diary {
     background:rgb(254, 252, 239);
-    position:relative;
-    overflow: auto;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1);
-
 }
 
 
-div.note_diary p {
-  font-size: 20px;
+.note_diary p {
   font-family: "PT Sans Narrow","Myriad Pro", sans-serif; /*might need to check*/
   color: rgb(67, 36, 17);
-  line-height: 1.2;
-  text-align: center;
-  position: relative;
-}
-
-
-
-div.note_diary button {
-  position:relative;
-  color: #fff;
-  font-size: 14px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
 }
 /*------------------------------------------------------*/
 
@@ -151,3 +113,29 @@ div.note_diary button {
   border-radius: 20%;
   background-color: #988b85;
 }
+
+/*if you do not specify, height will auto adjust*/
+/* .note_daylight {
+  box-shadow: 6px 6px 4px 0 rgba(0, 0, 0, 0.3);
+
+    width: 250px;
+    margin: 20px;
+    height: 200px;
+    border-radius: 3%;
+    background:#fffdf0;
+    position:relative;
+    transition: 0.6s;
+    cursor: pointer;
+    transform-style: preserve-3d;
+  } */
+    /* float:left; */
+
+    /*added in cursor for note*/
+    /* overflow: inherit; */
+    /*background: -moz-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(57%, #eab92d), color-stop(99%, #c79810));
+    background: -webkit-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
+    background: -o-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
+    background: -ms-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
+    background: radial-gradient(ellipse at center, #eab92d 57%, #c79810 99%);*/
+    /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1); */

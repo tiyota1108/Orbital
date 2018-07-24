@@ -1,57 +1,32 @@
-.note {
-  box-shadow: 6px 6px 4px 0 rgba(0, 0, 0, 0.3);
-  transition: 0.6s;
-    margin: 20px;
-    width: 320px;
-    height: 480px;
-    border-radius: 3%;
-    background:rgb(234, 234, 234);
-    position:relative;
-    transition: 0.6s;
-    transform-style: preserve-3d;
-    /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1); */
-    /* transform-style:preserve-3d; */
+html,
+body {
 
 }
-.flip-container {
-  perspective: 1000px;
-  width: 320px;
-  height: 480px;
-  overflow: auto;
+pre {
+
+    white-space: pre-wrap;
+    font-family: "Courier";
 
 }
-.flip-container:hover .note{
-  transform: rotateY(180deg);
-}
-/* .flip-container,.front, .back{
-  width: 320px;
-  height: 480px;
-  background-color: pink;
-}
-.flipper{
-  transition: 0.6s;
-  transform-style: preserve-3d;
-  position: relative;
-} */
-.note-flip {
-  transform: rotateY(180deg);
-}
-.front, .back {
-  backface-visibility: hidden;
-  position: absolute;
-  top:0;
+.lostMessage {
+  position: fixed; /* i dont know what this do*/
+  top: 0;
   left:0;
-}
-.front {
-  z-index: 2;
-  transform: rotateY(0deg);
-}
-.back {
-  transform: rotateY(180deg);
-}
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  /* display: block; */
+    /* z-index: -3; */
+    background-size: cover;
+  text-align: center;
+  font-family: "Didot";
+  color: #725d68;
+  /* background-color: #c09891; */
 
-.container-back {
-  padding: 2px 16px;
-  background-color: white;
-  border-radius: 10px 10px 10px 10px;
+  background-color: #a8b4a5;
+  margin-top: 0;
+  /* background-color: #fff; */
+
 }

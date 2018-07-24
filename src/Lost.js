@@ -1,51 +1,60 @@
-import React from 'react';
+import React, { Component} from 'react';
+import { Link } from 'react-router-dom';
 import './lost.css';
+
 const Lost = () => {
   return (
-    <div>
-      <h1 style = {{color: 'purple'}}>
-        You are lost!
-      </h1>
-      <p>
-              Pito pato milo mila taka tiki poulet tika
-        Cépa lajoi démitoka lana moulé macaréna
-        Pao lettus pabo pati mélé cépa maka gusta
-        Mami lébel méla moustache ella pika muchaaa
-        Moka coca pila caca fissa bella lamassala
-        Papa mama loca pita pola gusta la rumbada
-        Chaipa koda mila toka bocca pis-sa la lasagnaaa
-        Kika la po maka bomba bella mira la bologna
-        Kika la po maka bomba bella mira la bologna
-        Kika la po maka bomba bella mira la bologna
-        Kika la po maka bomba bella mira la bolognaaaaa
-        Pito pato milo mila taka tiki poulet tika
-        Cépa lajoi démitoka lana moulé macaréna
-        Moka coca pila caca fissa bella lamassala
-        Papa mama loca pita pola gusta la rumbadaaa
-        Moka coca pila caca fissa bella lamassala
-        Papa mama loca pita pola gusta la rumbadaaa
-        Chaipa koda mila toka bocca pis-sa la lasagna
-        Chaipa koda mila toka bocca pis-sa la lasagna
-        Chaipa koda mila toka bocca pis-sa la lasagnaaa
-        Moka coca pila caca fissa bella lamassala
-        Papa mama loca pita pola gusta la rumbadaaa
-        note-flip
-      </p>
+    <div className = "lostMessage animated fadeIn">
 
-      <div className = "flip-container">
-      <div className = "note">
+      <pre>
+              Pito pato milo mila taka tiki poulet tika {"\n"}
+              Cépa lajoi démitoka lana moulé macaréna{"\n"}
+        Pao lettus pabo pati mélé cépa maka gusta{"\n"}
+        Mami lébel méla moustache ella pika {"\n"}
+        muchaaa{"\n"}
+        {"\n"}
+        Moka coca pila caca fissa bella lamassala{"\n"}
+        Papa mama loca pita pola gusta la rumbada{"\n"}
+        Chaipa koda mila toka bocca pis-sa la{"\n"}
+        lasagnaaa{"\n"}
+        {"\n"}
 
-      <div className = "front">
-      <p>jello</p>
-      </div>
+        Kika la po maka bomba bella mira la bologna{"\n"}
+        Kika la po maka bomba bella mira la bologna{"\n"}
+        </pre>
+        <h1
+        style = {{color: '#9d6a89'}}>
+          You are lost!
+        </h1>
+        <h2 className = "animated rubberBand"
+        style = {{color: '#9d6a89'}}>
+        click <Link to='/' style = {{color: '#725d68'}}>here</Link> to go back home
+        </h2>
+        <pre>
+        Kika la po maka bomba bella mira la bologna{"\n"}
+        Kika la po maka bomba bella mira la bolognaaaaa{"\n"}
+        {"\n"}
 
-      <div className = "back">
-      <p>lililili</p>
-      </div>
+        Pito pato milo mila taka tiki poulet tika{"\n"}
+        Cépa lajoi démitoka lana moulé macaréna{"\n"}
+        Moka coca pila caca fissa bella lamassala{"\n"}
+        Papa mama loca pita pola gusta la rumbadaaa{"\n"}
+        Moka coca pila caca fissa bella lamassala{"\n"}
+        Papa mama loca pita pola gusta la rumbadaaa{"\n"}
+        {"\n"}
 
-      </div>
-      </div>
+        Chaipa koda mila toka bocca pis-sa la lasagna{"\n"}
+        Chaipa koda mila toka bocca pis-sa la lasagna{"\n"}
+        Chaipa koda mila toka bocca pis-sa la{"\n"}
+        lasagnaaa{"\n"}
+        {"\n"}
 
+        Moka coca pila caca fissa bella lamassala{"\n"}
+        Papa mama loca pita pola gusta la{"\n"}
+        rumbadaaa{"\n"}
+        {"\n"}
+
+              </pre>
     </div>
   )
 }

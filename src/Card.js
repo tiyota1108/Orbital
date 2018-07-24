@@ -82,8 +82,6 @@ class Card extends Component{
 	}
 	render(){
 		return this.state.editing ? this.renderForm():this.renderDisplay()
-
-
 	}
 }
 export default Card

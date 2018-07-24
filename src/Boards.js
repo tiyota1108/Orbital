@@ -99,7 +99,7 @@ class Board extends Component {
 							animation: "",
 							id:response._id,
 				    	note: note,
-							cards:[]
+							cards:[],
 				    }
 				]
 			}));
@@ -247,7 +247,7 @@ class Board extends Component {
 	//might need to test once the database and the server is deployed.
 	render() {//temporary logout button here
 		return (
-			<div className={`board_${this.state.mode}`}>
+			<div className={`board board_${this.state.mode}`}>
 			<h1>{this.state.boardTitle}</h1>
 			<button id="nav" onClick={this.openNav}><More /></button>
 			<Navigation closeNav = {this.closeNav}
@@ -257,7 +257,7 @@ class Board extends Component {
 			{
 				this.state.notes.length !== 0 && this.state.loading ? <Loading /> :
 				<div>
-				<div className ="Grid">
+				<div className ="Grid animated bounceInUp">
 				{this.state.notes.map(this.eachNote)}
 				</div>
 				<button onClick={this.add.bind(null, "New Note")}

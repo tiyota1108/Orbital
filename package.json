@@ -16,7 +16,7 @@
     "react-scripts": "1.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "nodemon ./server.js --exec babel-node -e js",
     "build": "react-scripts build",
     "test": "mocha --timeout 3000 --recursive",
     "eject": "react-scripts eject"

@@ -1,6 +1,6 @@
 module.exports = {
   'secret':'RESTFULAPIs',
-  'mongoUri': 'mongodb://localhost:27017/test'
+  'mongoUri': 'mongodb://kikizhuang:zyh2130712@ds249311.mlab.com:49311/board'
 };
 
 const config = {

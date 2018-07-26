@@ -90,7 +90,7 @@ class DashboardNote extends Component {
     className = "note-image" />
       </Link>
       <div className = "container">
-  			<h3>{this.props.boardTitle}</h3>
+  			<h3 onClick={this.edit}>{this.props.boardTitle}</h3>
         <span>
             <button onClick={this.edit} id="edit"><FaPencil /></button>
             <button onClick={this.remove} id="remove"><FaTrash /></button>

@@ -314,7 +314,7 @@ class Note extends Component {
 	renderDisplay() {
 		return (
 			<div>
-				<p>{this.props.children}</p>
+				<p onClick={this.editTitle}>{this.props.children}</p>
 				<button onClick={this.remove} id="remove"><FaTrash /></button>
 				<button onClick={this.editTitle} id="edit"><FaPencil /></button>
 				<div className="demo8-outer">
@@ -332,7 +332,7 @@ class Note extends Component {
 	renderDisplay_back() {
 		return (
 			<div>
-				<p>{this.props.children}</p>
+				<p onClick={this.editTitle}>{this.props.children}</p>
 				<button onClick={this.remove} id="remove"><FaTrash /></button>
 				<button onClick={this.editTitle} id="edit"><FaPencil /></button>
 			</div>

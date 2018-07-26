@@ -13,6 +13,7 @@ import Lost from './Lost';
 //need a nav component
 
 
+
 // ReactDOM.render(<Board count={50}/>, document.getElementById('root'));
 // registerServiceWorker();
 //<Route exact path='/' component={Board} />

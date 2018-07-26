@@ -33,13 +33,7 @@ class Board extends Component {
 	//retriving data from server before mounting borad
 	componentWillMount() {//should i use will or did, i use will here to ensure the loading state works
 		var self = this;
-		//this.boardId = this.props.match.params.id;
-		if(this.props.location.state !== undefined){
-			this.boardId = this.props.location.state.boardId;
-		} else {
-			this.props.history.push("/login");
-			return;
-		}
+		this.boardId = this.props.match.params.id;
 		setTimeout(() => this.setState({loading: false}), 1000);//load
 
 		fetch(`http://localhost:3000/note/${this.boardId}`, { //added in the second argument to specify token
@@ -136,7 +130,13 @@ class Board extends Component {
 			if(response.message === unanthMessage) {
 				this.props.history.push("/login");
 				//console.log("hello");
-			}
+			} else {
+			self.setState(prevState => ({
+				notes: prevState.notes.map(
+					note => (note.id !== i) ? note : {...note,note: newNoteTitle}
+					)
+			}));
+		}
 		})
 		.catch((error) => {
 		console.log(error);
@@ -144,11 +144,6 @@ class Board extends Component {
 			this.props.history.push("/login");//can directly use history?
 		}
 	});
-	self.setState(prevState => ({
-		notes: prevState.notes.map(
-			note => (note.id !== i) ? note : {...note,note: newNoteTitle}
-			)
-	}));
 	}
 	//------------------------------------------------------------------------
 
@@ -169,14 +164,15 @@ class Board extends Component {
 			if(response.message === unanthMessage) {
 				this.props.history.push("/login");
 				//console.log("hello");
-			}
+			} else {
+			self.setState(prevState => ({
+				notes: prevState.notes.filter(note => note.id !== id)
+			}));
+		}
 		})
 		.catch( (error) => {
 		console.log(error);
 	})
-	self.setState(prevState => ({
-		notes: prevState.notes.filter(note => note.id !== id)
-	}));
 	}
 
 
@@ -214,7 +210,13 @@ class Board extends Component {
 			if(response.message === unanthMessage) {
 				this.props.history.push("/login");
 				//console.log("hello");
-			}
+			} else {
+			self.setState(prevState => ({
+				notes: prevState.notes.map(
+					note => (note.id !== noteId) ? note : {...note,animation: side}
+					)
+			}));
+		}
 		})
 		.catch((error) => {
 		console.log(error);
@@ -222,11 +224,6 @@ class Board extends Component {
 			this.props.history.push("/login");//can directly use history?
 		}
 	});
-	self.setState(prevState => ({
-		notes: prevState.notes.map(
-			note => (note.id !== noteId) ? note : {...note,animation: side}
-			)
-	}));
 	}
 
 	/*--------for flipping end-------------------------------------*/
@@ -249,10 +246,6 @@ class Board extends Component {
 	//here i added a loading state of 1.5s and wrapped the content in a div,
 	//might need to test once the database and the server is deployed.
 	render() {//temporary logout button here
-		if(this.props.location.state === undefined){
-			return (<h1>Please sign in to access the board</h1>);
-		}// just make sure that if someone types /board, they will be
-		//sent to the login page without error being thrown
 		return (
 			<div className={`board board_${this.state.mode}`}>
 			<h1>{this.state.boardTitle}</h1>

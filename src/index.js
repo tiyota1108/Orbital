@@ -26,7 +26,7 @@ ReactDOM.render(
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
         <Route path = '/dashboard/:id' component = {Dashboard} />
-        <Route exact path = '/board/:id' component = {Board} />
+        <Route exact path = '/board' component = {Board} />
         <Route component = {Lost} />
         </Switch>
   </Router>,

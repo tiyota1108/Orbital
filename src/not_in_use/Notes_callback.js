@@ -5,10 +5,7 @@ import FaPencil from 'react-icons/lib/fa/pencil'
 import FaTrash from 'react-icons/lib/fa/trash'
 import FaFloppyO from 'react-icons/lib/fa/floppy-o'
 import './notes.css'
-//in this version i moved the set state for updating and deleting
-//card out of the callback of saving to backend. to speed up
-//front end render. the version where the setstate is inside
-//callback is called Notes.callback.js
+
 
 const unanthMessage = "Unauthorized user,please login.";
 
@@ -29,16 +26,38 @@ class Note extends Component {
 		this.saveTitle = this.saveTitle.bind(this)
 		this.renderForm = this.renderForm.bind(this)
 		this.renderDisplay = this.renderDisplay.bind(this)
+		//this.randomBetween = this.randomBetween.bind(this)
 	}
 
+	/*componentWillMount() {
+		this.style = {
+			right: this.randomBetween(0, window.innerWidth - 200, 'px'),
+			top: this.randomBetween(0, window.innerHeight - 200, 'px'),
+			transform: `rotate(${this.randomBetween(-25, 25, 'deg')})`
+		}
+	}
 
+	randomBetween(x, y, s) {
+		return x + Math.ceil(Math.random() * (y-x)) + s
+	}*/
+	/*componentDidUpdate(){
+		var titleArea
+		if(this.state.editingTitle){
+			titleArea = this._newTextTitle
+			titleArea.focus()
+			titleArea.select()
+		}
+	}*/
 	//load cards retrieved from server on each note
 	componentWillMount() {
 		this.setState({
 			cards: this.props.cards.map(card => (
 				{id: card._id,
 				card: card.cardContent}
-			))
+			)).reduce((obj, note) => {//reduce the array of note objects to one big object with the _ids as keys
+        obj[note.id] = note;
+        return obj;
+      },{})
 		});
 	}
 
@@ -76,7 +95,7 @@ class Note extends Component {
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
-				'Authorization' : `${localStorage.getItem('jwtToken')}`,
+        'Authorization' : `${localStorage.getItem('jwtToken')}`,
 			},
 			body: JSON.stringify({
 				cardContent: text,
@@ -85,19 +104,19 @@ class Note extends Component {
 		.then(response => response.json())
 		.then(response => {
 			console.log(response);
-			if(response.message === unanthMessage) {
-				this.props.history.push("/login");
-			} else {
-				self.setState(prevState =>({
-					cards:[
-							...prevState.cards,
-							{
-								id:response._id,
-								card:text
-							}
-					]
-				}));
-		}
+      if(response.message === unanthMessage) {
+        this.props.history.push("/login");
+      } else {
+			self.setState(prevState =>({
+				cards:{
+						...prevState.cards,
+						[response._id] : {
+							id:response._id,
+							card:text
+						}
+				}
+			}));
+    }
 		})
 		.catch( (error) => {
 		console.log(error);
@@ -112,7 +131,7 @@ class Note extends Component {
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json',
-				'Authorization' : `${localStorage.getItem('jwtToken')}`,
+        'Authorization' : `${localStorage.getItem('jwtToken')}`,
 			},
 			body: JSON.stringify({
 				cardContent: newText,
@@ -121,21 +140,20 @@ class Note extends Component {
 		.then(response => response.json())
 		.then(response => {
 			console.log(response);
-			if(response.message === unanthMessage) {
-				this.props.history.push("/login");
-			}
+      if(response.message === unanthMessage) {
+        this.props.history.push("/login");
+      } else {
+			self.setState(prevState => {
+        prevState.cards[i].card = newText;//here cannot use notes.i must use notes[i], thank you 1101S
+        return prevState;
+      });
+    }
 		})
 		.catch( (error) => {
 		console.log(error);
 	})
-	self.setState(prevState => ({
-		cards: prevState.cards.map(
-			card => (card.id !== i) ? card : {...card,card: newText}
-			)
-	}));
 	}
-
-
+	
 	remove() {
 		this.props.onRemove(this.props.index)
 	}
@@ -156,25 +174,27 @@ class Note extends Component {
 			console.log(response);
       if(response.message === unanthMessage) {
         this.props.history.push("/login");
-      }
+      } else {
+      self.setState(prevState => {
+        delete prevState.cards[id];
+        return prevState;
+      });
+    }
 		})
 		.catch( (error) => {
 		console.log(error);
 	})
-	self.setState(prevState => ({
-		cards: prevState.cards.filter(card => card.id !== id)
-	}));
 	}
 
 
-	eachCard(card, i) {
+	eachCard(cardId, i) {
 		return (
-			<Card key={card.id}
-				  index={card.id}
+			<Card key={cardId}
+				  index={cardId}
 					mode = {this.props.mode}
 					onChange={this.update}
 				  onRemove={this.removeCard}>
-					{card.card}
+				  {this.state.cards[cardId].card}
 		    </Card>
 		)
 	}
@@ -191,6 +211,15 @@ class Note extends Component {
 			</div>
 		)
 	}
+	/*
+	here i basically give a different variable name for the
+	input inside the textbox depending on which side the notes are
+	on. and updated saveTitle accordingly. cuz if not, we would
+	only be able to update noteTitle from the backside,not the
+	front side.
+						<textarea ref={input => this._newTextTitle = input}
+*/
+
 	renderDisplay() {
 		return (
 			<div>
@@ -198,7 +227,7 @@ class Note extends Component {
 				<button onClick={this.remove} id="remove"><FaTrash /></button>
 				<button onClick={this.editTitle} id="edit"><FaPencil /></button>
 
-				{this.state.cards.map(this.eachCard)}
+				{Object.keys(this.state.cards).map(this.eachCard)}
 				<span>
 				<button onClick={this.add.bind(null,"New Card")}
 				    id="add">
@@ -238,9 +267,31 @@ class Note extends Component {
 			</div>
 			</div>
 		)
+		// return this.state.editingTitle ? this.renderForm() : this.renderDisplay()
 	}
 
 }
 
 
 export default Note;
+
+//the first working render method. i want to disablt the card flip effect while renderingForm
+//as users are highly likely to double click while inputing text. so i replaced it
+// render() {
+// 	console.log("this state is" + this.props.animation );
+// 	return (
+// 		<div className = {`flip-container note_${this.props.mode}${this.state.effect}`}>
+// 		<div className = {`note note_${this.props.mode}${this.props.animation}`}>
+// 			<div className = "front" onDoubleClick = {() => this.props.onFlip(this.props.index, " flipped")}>
+// 							{this.state.editingTitle ? this.renderForm("front") : this.renderDisplay()}
+// 			</div>
+// 			<div className = "back-container back" onDoubleClick = {() => this.props.onFlip(this.props.index, "")}>
+// 							{this.state.editingTitle ? this.renderForm("back") : this.renderDisplay_back()}
+//
+//
+// 				</div>
+// 		</div>
+// 		</div>
+// 	)
+// 	// return this.state.editingTitle ? this.renderForm() : this.renderDisplay()
+// }

@@ -1,4 +1,5 @@
 var express =require('express');
+var cors = require('cors');//add in cors
 var bodyParser = require('body-parser');
 var path = require('path');
 import mongoose from 'mongoose';
@@ -16,7 +17,8 @@ var PORT = 8080;
 mongoose.Promise = global.Promise;
 mongoose.connect(mongoUri, { useNewUrlParser: true });
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(cors());
+app.use(express.static(path.join(__dirname, '../react-ui/build')));
 app.use(bodyParser.json()); //let the body parser know that we expect json to be coming in with http requests to the server
 app.use(bodyParser.urlencoded({extended: true}));
 app.use((req, res, next) => {

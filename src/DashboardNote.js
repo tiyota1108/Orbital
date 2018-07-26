@@ -77,8 +77,10 @@ class DashboardNote extends Component {
 
       <div className = "dashboard_note">
       <Link to={{
-        pathname : `/board/${this.props.boardId}`,
+        // pathname : `/board/${this.props.boardId}`,
+        pathname : `/board`,
         state : {
+          boardId: this.props.boardId,
         userId : this.props.userId,
         boardId : this.props.boardId
       }

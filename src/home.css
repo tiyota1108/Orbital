@@ -43,15 +43,12 @@ body{
 	background: url('/banner.png');
 	padding: 50px 0;
 	background-size: cover;
-
 }
 .title-quote{
 	font-size: 1.25em;
 	font-family: "Roboto";
-  /* font-family: "Lao Sangam MN"; */
   color: #fcd9df;
   line-height: 1.2;
-  /* text-align: center; */
 	margin-top:-120px;
 	text-align: center;
 }
@@ -77,12 +74,7 @@ body{
 .intro-text {
 	padding: 10px 0;
 	font-size: 15px;
-	font-family: "Avenir";
-	font-family: "Didot";
 	font-family: "Roboto";
-
-	/* padding-bottom: 0px; */
-
 	color: rgb(45, 26, 14);
 }
 
@@ -90,11 +82,8 @@ body{
 .link {
 	text-align: center;
 	font-size: 25px;
-  /* font-family: "Gill Sans"; */
 	font-family: "Roboto";
 font-family:"Myanmar MN";
-	/* font-family:"Avenir"; */
-
   color: rgb(80, 80, 80);
 }
 
@@ -113,7 +102,6 @@ font-family:"Myanmar MN";
 .modeBlock{
 	background-color: #f4f8f9;
 	background-color: #f9f9f9;
-
 	padding-top: 2%;
 	padding-bottom: 4%;
 
@@ -127,7 +115,9 @@ font-family:"Myanmar MN";
 	margin-right: auto;
 	display:flex;
 	flex-direction: row;
-	justify-content: space-between;
+	/* justify-content: space-between; */
+	justify-content: center;
+	flex-wrap: wrap;
 	/* flex-basis: start; */
 }
 .mode1{
@@ -156,12 +146,15 @@ font-family:"Myanmar MN";
 
 	align-self: flex-start;
 	/* width:32.5%; */
-	width:29%;
+	width:320px;
 	height:400px;
 	display: flex;
 	flex-direction: column;
 	/* align-items: center; */
 	justify-content: flex-start;
+	margin-left: 20px;
+	margin-right: 10px;
+
 }
 .quote-wrapper {
 	/* border-radius: 2%; */
@@ -283,7 +276,7 @@ font-family:"Myanmar MN";
 
 }
 .mode4{
-	margin-top: -1%;
+	/* margin-top: -1%; */
 	background: url('/signup_background.png');
 	/* background-size:cover; */
 	background-position: bottom;
@@ -302,13 +295,52 @@ text-align: center;
 	font-size: 0.7em;
 	font-family: "Myanmar MN";
 }
-/* display: inline-block; */
-
-/* margin-bottom: 5%; */
-
-/* p{
-	text-align: left;
-	margin-left: 10px;
-	margin-top: 85px;
-	font-size: 15px;
-} */
+@media only screen and (max-width: 500px) {
+	.title{
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		/* margin-top: -50px; */
+		height:350px;
+		width:100%;
+		align-self: center;
+		background:white;
+		margin-bottom: 10px;
+		background: url('/banner_small.png');
+		padding: 50px 0;
+		background-repeat: 	no-repeat;
+		background-position: top;
+		background-size: cover;
+	}
+	.title-quote{
+		font-size: 14px;
+		font-family: "Roboto";
+	  color: #fcd9df;
+	  line-height: 1.2;
+		/* margin-top:10px; */
+		text-align: center;
+	}
+	.group-name {
+	  font-size: 120px;
+	  font-family: "Didot";
+	  color: rgb(228, 227, 219);
+	  font-weight: bold;
+	  line-height: 1.2;
+	  text-align: center;
+		letter-spacing: 5px;
+		margin-top: 15%;
+	}
+	.link {
+		text-align: center;
+		font-size: 20px;
+		font-family: "Roboto";
+	font-family:"Myanmar MN";
+	  color: rgb(80, 80, 80);
+	}
+	.intro-text {
+		padding: 10px 0;
+		font-size: 12px;
+		font-family: "Roboto";
+		color: rgb(45, 26, 14);
+	}
+}

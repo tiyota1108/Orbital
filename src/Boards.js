@@ -80,6 +80,7 @@ class Board extends Component {
 
 	add(note) {
 		var self = this;
+		// var ori = this.state.notes.length;
 		fetch(`http://localhost:3000/note/${this.boardId}`, {
 			method: 'POST',
 			headers: {
@@ -98,6 +99,14 @@ class Board extends Component {
 				this.props.history.push("/login");
 				//console.log("hello");
 			} else {
+			// 	if(self.state.notes.length !== ori) {
+			// 	self.setState(prevState => ({
+			// 		notes: prevState.notes.map(
+			// 			note => (note.id !== "placeHolder") ? note : {...note,id: response._id}
+			// 			)
+			// 	}));
+			// 	return;
+			// } else {
 			self.setState(prevState =>({
 				notes:[
 				    ...prevState.notes,
@@ -109,12 +118,25 @@ class Board extends Component {
 				    }
 				]
 			}));
+			// return;
 		}
+	// }
 		})
 		.catch( (error) => {
 			if(error.response)
 		console.log(error);
 	})
+	// self.setState(prevState =>({
+	// 	notes:[
+	// 			...prevState.notes,
+	// 			{
+	// 				animation: "",
+	// 				id:"placeHolder",
+	// 				note: note,
+	// 				cards:[],
+	// 			}
+	// 	]
+	// }));
 	}
 
 	updateTitle(newNoteTitle, i) {

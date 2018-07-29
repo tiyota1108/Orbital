@@ -7,7 +7,7 @@ body {
 .container{
   background-position: center;
   margin-top: 150px auto;
-  
+
 }
 .container .form-signin {
   height:80%;
@@ -42,7 +42,7 @@ body {
   padding: 10px;
   font-size: 16px;
   font-family: "Freight Sans","Roboto",sans-serif;
-  
+
 }
 
 .container .form-signin input[type="email"] {

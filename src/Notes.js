@@ -51,6 +51,8 @@ class Note extends Component {
 		this.saveTitle = this.saveTitle.bind(this)
 		this.renderForm = this.renderForm.bind(this)
 		this.renderDisplay = this.renderDisplay.bind(this)
+    this.renderDisplay_back = this.renderDisplay_back.bind(this)
+
 	}
 
 

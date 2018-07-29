@@ -40,6 +40,7 @@ class Login extends Component {
     //     this.setState({ message: 'Login failed. Username or password not match' });
     //   }
     // })
+    // .then(response => console.log(JSON.stringify(response)))
     .then(response => response.json())
     .then(response => {
       console.log(response);
@@ -70,12 +71,12 @@ class Login extends Component {
             </div>
           }
           <h2 className="form-signin-heading">SIGN IN</h2>
-          
+
           <label htmlFor="inputEmail" className="sr-only"></label>
           <input type="email" className="form-control" placeholder="Email address" name="username" value={username} onChange={this.onChange} required/>
           <label htmlFor="inputPassword" className="sr-only"></label>
           <input type="password" className="form-control" placeholder="Password" name="password" value={password} onChange={this.onChange} required/>
-          
+
           <button className="btn" type="submit">Login</button>
         </form>
         <p class="hint">
@@ -84,9 +85,9 @@ class Login extends Component {
       <p class="hint2">
           Or Go Back <Link to="/">Home</Link>
       </p>
-    
+
       </div>
-      
+
     );
   }
 }

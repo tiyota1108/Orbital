@@ -1,76 +1,246 @@
 /* body,
 html{
     height: 100%;
-    overflow: hidden;
 } */
 body{
 	overflow: auto;
 }
-#login {
+/* #login {
+	display: block;
     font-size: 20px;
-    text-align: right;
-    
+    text-align: center;
+} */
+
+
+
+.container_home {
+	background-color: #eaeaea;
+	margin: 0, auto;
+	height: 100%;
 }
+
+.group-name {
+  font-size: 10em;
+  font-family: "Didot";
+  color: rgb(228, 227, 219);
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;
+	letter-spacing: 5px;
+	margin-top: 4.5%;
+}
+
 .title{
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: -50px;
-	height:200px;
-	width:80%;
+	/* margin-top: -50px; */
+	height:560px;
+	width:100%;
 	align-self: center;
 	background:white;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
+	background: url('/banner.png');
+	padding: 50px 0;
+	background-size: cover;
 
 }
 .title-quote{
-	margin-top:-30px;
+	font-size: 1.25em;
+	font-family: "Roboto";
+  /* font-family: "Lao Sangam MN"; */
+  color: #fcd9df;
+  line-height: 1.2;
+  /* text-align: center; */
+	margin-top:-120px;
 	text-align: center;
 }
-.group-name{
-	text-align: center;
-	font-size: 72px;
-	letter-spacing: 5px;
-	padding-top:10px;
-}
-.instruction1{
-	font-size: 24px;
-	float:left;
-	margin-left:10%;
-	margin-right: 20px;
+
+.container_intro {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+  line-height: 1.2;
+  text-align: center;
+	width:95%;
+	align-self: center;
+	/* background:#ced1ce; */
+	/* background-color:#ccc; */
+
+	/* background:honeydew; */
+	padding-top: 5px;
+	padding: 60px 0;
+	margin-bottom: 15px;
+	height:19%;
 
 }
-.instruction2{
-	font-size: 24px;
-	float:left;
-	margin-left:10%;
-	margin-right: 20px;
+.intro-text {
+	padding: 10px 0;
+	font-size: 15px;
+	font-family: "Avenir";
+	font-family: "Didot";
+	font-family: "Roboto";
+
+	/* padding-bottom: 0px; */
+
+	color: rgb(45, 26, 14);
 }
-.instruction3{
-	font-size: 24px;
-	float:left;
-	margin-left:10%;
-	margin-right: 20px;
+
+
+.link {
+	text-align: center;
+	font-size: 25px;
+  /* font-family: "Gill Sans"; */
+	font-family: "Roboto";
+font-family:"Myanmar MN";
+	/* font-family:"Avenir"; */
+
+  color: rgb(80, 80, 80);
 }
-.instruction4{
-	font-size: 24px;
-	float:left;
-	margin-left:10%;
-	margin-right: 20px;
+
+.link:hover {
+	/* color: rgb(45, 26, 14); */
+	color: white;/*lets change this later*/
+}
+
+.link:active {
+  color: black;
+}
+
+.link:visited {
+	color: rgb(45, 26, 14);
+}
+.modeBlock{
+	background-color: #f4f8f9;
+	background-color: #f9f9f9;
+
+	padding-top: 2%;
+	padding-bottom: 4%;
+
+}
+.modes{
+	background-color: honeydew;
+	background-color: transparent;
+	width: 93%;
+	/* text-align: left; */
+	margin-left: auto;
+	margin-right: auto;
+	display:flex;
+	flex-direction: row;
+	justify-content: space-between;
+	/* flex-basis: start; */
 }
 .mode1{
-	margin-left: 10%;
-	display: inline-block;
+	/* margin-left: auto;
+	margin-right: auto; */
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	background: url('/diary_background.png');
+	background-size:contain;
+	background-repeat: no-repeat;
+	background-position: bottom;
+	color:black;
+	/* margin-bottom: 10px; */
+	width:100%;
+	height:300px;
+	padding-top: 5px;
+	text-align: center;
+	/* border-radius: 2%; */
+	/* box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 6px 0px; */
+}
+.mode-wrapper{
+	/* background: pink; */
+	background-color: transparent;
+
+	align-self: flex-start;
+	/* width:32.5%; */
+	width:29%;
+	height:400px;
+	display: flex;
+	flex-direction: column;
+	/* align-items: center; */
+	justify-content: flex-start;
+}
+.quote-wrapper {
+	/* border-radius: 2%; */
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 6px 0px;
+	height:75px;
+	background-color:#fff;
+	padding-left: 3%;
+	padding-right: 3%;
+
+	/* background-color: #e9f0e9;
+	background-color: honeydew; */
+}
+.diary-quote {
+	margin-top: 5%;
+	/* margin-right: 30px; */
+	text-align: left;
+	font-size: 0.7em;
+	font-family: "Roboto";
+	/* font-family: "Savoye LET"; */
+	color: rgb(80, 80, 80);
+  /* font-family: "Brush Script MT"; */
+	/* color: #939190; */
+  /* font-style: italic; */
+}
+
+/*{"\n"}We offer boards of different designs and same functionalities.*/
+.right-side {
+	margin-bottom: 0px;
+	text-align: center;
+	margin-top: 5px;
+	font-size: 1.1em;
+	font-family: "Avenir";
+	font-family:"Myanmar MN";
+
+	color: rgb(45, 26, 14);
+	color: rgb(80,80,80);
+}
+
+
+/* .mode2{
+	margin-left: auto;
+	margin-right: auto;
+	display:block;
+	background: url('/daylight_background.png');
 	background-size:cover;
 	background-repeat: no-repeat;
 	background-position: center;
 	color:black;
 	margin-bottom: 20px;
-	width:80%;
-	height:200px;
-}
+	width:95%;
+	height:250px;
+	padding-top: 10px;
+	padding-left: 10px;
+} */
 .mode2{
+	/* margin-top: 30%; */
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: url('/daylight_background.png');
+	/* background-size:cover; */
+	background-repeat: no-repeat;
+	background-position: bottom;
+	background-size: contain;
+	color:black;
+	/* margin-bottom: 10px; */
+	width:100%;
+	height:300px;
+	padding-top: 5px;
+	text-align: center;
+	/* border-radius: 2%; */
+	/* box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 6px 0px; */
+}
+/* .showNote {
+	margin-top: -5%;
+
+} */
+/* .mode2{
 	margin-left: 10%;
 	display: inline-block;
 	background: url('/night_background.png');
@@ -81,8 +251,8 @@ body{
 	margin-bottom: 20px;
 	width:80%;
 	height:200px;
-}
-.mode3{
+} */
+/* .mode3{
 	margin-left: 10%;
 	display: inline-block;
 	background: url('/daylight_background.png');
@@ -92,22 +262,53 @@ body{
 	margin-bottom:20px;
 	width:80%;
 	height:200px;
+} */
+.mode3{
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: url('/night_background.png');
+	background-size:contain;
+	background-repeat: no-repeat;
+	background-position: bottom;
+	color:black;
+	/* margin-bottom: 10px; */
+	width:100%;
+	height:300px;
+	padding-top: 5px;
+	text-align: center;
+	/* border-radius: 2%; */
+	/* box-shadow: rgba(0s 0, 0, 0.2) 0px 3px 6px 0px; */
+
 }
 .mode4{
-	margin-left: 10%;
-	display: inline-block;
-	background: url('/diary_background.png');
-	background-size:cover;
+	margin-top: -1%;
+	background: url('/signup_background.png');
+	/* background-size:cover; */
 	background-position: bottom;
+	background-position: right;
+
 	background-repeat: no-repeat;
 	color:black;
-	width:80%;
-	height:200px;
-	margin-bottom: 5%;
+	width:100%;
+	height:100px;
+padding-top: 10%;
+text-align: center;
+
 }
-p{
+.mode4 pre {
+	/* background-color: pink; */
+	font-size: 0.7em;
+	font-family: "Myanmar MN";
+}
+/* display: inline-block; */
+
+/* margin-bottom: 5%; */
+
+/* p{
 	text-align: left;
 	margin-left: 10px;
 	margin-top: 85px;
 	font-size: 15px;
-}
+} */

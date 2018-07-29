@@ -7,6 +7,7 @@ import { secret } from '../../config'
 export const User = mongoose.model('User', userSchema);
 
 export const register = (req, res) => {
+  // console.log(JSON.stringify(req.body));
   const newUser = new User(req.body);
   newUser.hashPassword = bcrypt.hashSync(req.body.password, 10);
   newUser.save((err, user) => {
@@ -22,10 +23,14 @@ export const register = (req, res) => {
 }
 
 export const login = (req, res) => {
+  console.log("inside login");
   User.findOne({
     email: req.body.email
   }, (err, user) => {
-    if(err) throw err;
+    if(err) {
+      console.log("error with database");
+      throw err;
+    }
     if(!user) {
       res.status(401).json({message: "Authentication failed. No user found!"});
     } else {

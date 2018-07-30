@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './home.css';
 import Demo from './Demo';
 
+//style={{ textDecoration: 'none' }}
 const Home = (props) => {
   return(
   <div className = 'container_home'>
@@ -12,8 +13,7 @@ const Home = (props) => {
   <pre className="title-quote animated fadeIn"> 'I wonder,' he said, 'whether the stars are set alight {"\n"} in heaven so that one day each one of us may find his own again...'</pre>
   </div>
   <div className = "container_intro">
-    <Link to = "/login"  className = "link"
-    style={{ textDecoration: 'none' }}>
+    <Link to = "/login"  className = "link">
      Login or register to start creating! </Link>
      <pre className = "intro-text">a personal space for your thoughts, plans, and ideas
      </pre>

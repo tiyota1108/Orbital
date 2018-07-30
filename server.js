@@ -9,7 +9,8 @@ import { mongoUri, secret } from './config';
 import jsonwebtoken from 'jsonwebtoken';
 import User from './src/models/userModel'; //i'm pretty sure this is wrong
 //nodemon ./server.js --exec babel-node -e js &&
-
+//    "start": "node server.js",
+//    "server": "nodemon server.js",
 
 var app = express();
 var PORT = 8080;

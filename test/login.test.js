@@ -21,6 +21,11 @@ let register_details = {
   'password': '123@abc'
 };
 
+//let's set up the data we need to pass to the login method
+
+//now let's login the user before we run any tests
+var authenticatedUser = request.agent(app);
+
 
 
 describe('Create Account, Login and Check Token', () => {
@@ -35,7 +40,7 @@ describe('Create Account, Login and Check Token', () => {
   describe('/POST Register', () => {
     it('it should Register, Login, and check token', (done) => {
       chai.request(server)
-        .post('/api/v1/auth/register')
+        .post('/auth/register')
         .send(register_details) 
         .end((err, res) => { // when we get a response from the endpoint
           
@@ -45,7 +50,7 @@ describe('Create Account, Login and Check Token', () => {
 
           // follow up with login
           chai.request(server)
-            .post('/api/v1/auth/login')//this part i don't understand
+            .post('/auth/login')//this part i don't understand
             .send(login_details)
             .end((err, res) => {
               console.log('run the login part');
@@ -56,7 +61,7 @@ describe('Create Account, Login and Check Token', () => {
               let token = res.body.token;
               
               chai.request(server)
-                .get('/api/v1/account/user')
+                .get('/user')
             
                 .set('Authorization', token)
                 .end((err, res) => {

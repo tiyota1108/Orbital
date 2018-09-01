@@ -51,7 +51,7 @@ class Note extends Component {
 		this.saveTitle = this.saveTitle.bind(this)
 		this.renderForm = this.renderForm.bind(this)
 		this.renderDisplay = this.renderDisplay.bind(this)
-    this.renderDisplay_back = this.renderDisplay_back.bind(this)
+        this.renderDisplay_back = this.renderDisplay_back.bind(this)
 
 	}
 
@@ -101,7 +101,7 @@ class Note extends Component {
 
 	add(text) {
 		var self = this;
-		fetch(`http://localhost:3000/card/${this.props.index}`, {
+		fetch(`https://little-planet-1564-api.herokuapp.com/card/${this.props.index}`, {
 			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
@@ -137,7 +137,7 @@ class Note extends Component {
 
 	update(newText, i) {
 		var self = this;
-		fetch(`http://localhost:3000/card/${this.props.index}/${i}`, {
+		fetch(`https://little-planet-1564-api.herokuapp.com/card/${this.props.index}/${i}`, {
 			method: 'PUT',
 			headers: {
 				'Accept': 'application/json',
@@ -173,7 +173,7 @@ class Note extends Component {
 	removeCard(id) {
 		console.log('removing item at', id)
 		var self = this;
-		fetch(`http://localhost:3000/card/${this.props.index}/${id}`, {
+		fetch(`https://little-planet-1564-api.herokuapp.com/card/${this.props.index}/${id}`, {
 			method: 'DELETE',
 			headers: {
 				'Accept': 'application/json',
@@ -219,19 +219,23 @@ class Note extends Component {
 		const {isPressed, topDeltaY, cards, originalPosOfLastPressed, itemsCount} = this.state;
 //+ cards.indexOf(originalPosOfLastPressed) * 35
 		if (isPressed) {
+			console.log("itemsCount is " + itemsCount);
+			console.log("springConfig is " + springConfig);
+			console.log("originalPosOfLastPressed is"+ cards.indexOf(originalPosOfLastPressed));
 			console.log("pageY is " + pageY);
 			console.log("topDeltaY " + topDeltaY);
 			const mouseY = pageY - topDeltaY;
 			console.log("mouseY is " + mouseY);
-			const currentRow = clamp(Math.round(mouseY / 70)  , 0, itemsCount - 1);
+			const currentRow = clamp(clamp(Math.round(mouseY / 70),-itemsCount+1,itemsCount-1) + cards.indexOf(originalPosOfLastPressed),0,itemsCount-1);
 			console.log("currentRow is " + currentRow);
 			let newOrder = cards;
 
 			if (currentRow !== cards.indexOf(originalPosOfLastPressed)){
 				newOrder = reinsert(cards, cards.indexOf(originalPosOfLastPressed), currentRow);
-			}
+				this.setState({topDeltaY: pageY, cards: newOrder});
+			}else{
 
-			this.setState({mouseY: mouseY, cards: newOrder});
+			this.setState({mouseY: mouseY, cards: newOrder});}
 		}
 	};
 

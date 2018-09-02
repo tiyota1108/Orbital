@@ -3,9 +3,11 @@ import Note from './Notes'
 import FaPlus from 'react-icons/lib/fa/plus'
 import FaTrash from 'react-icons/lib/fa/trash'
 import More from 'react-icons/lib/io/android-more-horizontal'
+import SearchIcon from 'react-icons/lib/io/ios-search-strong'
 import Card from './Card'
 import Loading from './Loading'
 import Navigation from './Navigation'
+import Search from './Search.js'
 import './boards.css'
 
 //Boards now is the one with the original data structure and adpted
@@ -17,6 +19,7 @@ class Board extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			refresh: false,
 			loading: true,
 			notes: []
 		}
@@ -29,11 +32,19 @@ class Board extends Component {
 		this.openNav = this.openNav.bind(this)
 		this.closeNav = this.closeNav.bind(this)
 		this.flipNote = this.flipNote.bind(this)
+		this.openSearch = this.openSearch.bind(this)
+		this.closeSearch = this.closeSearch.bind(this)
 	}
 	//retriving data from server before mounting borad
 	componentWillMount() {//should i use will or did, i use will here to ensure the loading state works
 		var self = this;
-		this.boardId = this.props.match.params.id;
+		//this.boardId = this.props.match.params.id;
+		if(this.props.location.state !== undefined){
+			this.boardId = this.props.location.state.boardId;
+		} else {
+			this.props.history.push("/login");
+			return;
+		}
 		setTimeout(() => this.setState({loading: false}), 1000);//load
 
 		fetch(`http://localhost:3000/note/${this.boardId}`, { //added in the second argument to specify token
@@ -74,6 +85,7 @@ class Board extends Component {
 
 	add(note) {
 		var self = this;
+		// var ori = this.state.notes.length;
 		fetch(`http://localhost:3000/note/${this.boardId}`, {
 			method: 'POST',
 			headers: {
@@ -92,6 +104,14 @@ class Board extends Component {
 				this.props.history.push("/login");
 				//console.log("hello");
 			} else {
+			// 	if(self.state.notes.length !== ori) {
+			// 	self.setState(prevState => ({
+			// 		notes: prevState.notes.map(
+			// 			note => (note.id !== "placeHolder") ? note : {...note,id: response._id}
+			// 			)
+			// 	}));
+			// 	return;
+			// } else {
 			self.setState(prevState =>({
 				notes:[
 				    ...prevState.notes,
@@ -103,12 +123,25 @@ class Board extends Component {
 				    }
 				]
 			}));
+			// return;
 		}
+	// }
 		})
 		.catch( (error) => {
 			if(error.response)
 		console.log(error);
 	})
+	// self.setState(prevState =>({
+	// 	notes:[
+	// 			...prevState.notes,
+	// 			{
+	// 				animation: "",
+	// 				id:"placeHolder",
+	// 				note: note,
+	// 				cards:[],
+	// 			}
+	// 	]
+	// }));
 	}
 
 	updateTitle(newNoteTitle, i) {
@@ -130,13 +163,7 @@ class Board extends Component {
 			if(response.message === unanthMessage) {
 				this.props.history.push("/login");
 				//console.log("hello");
-			} else {
-			self.setState(prevState => ({
-				notes: prevState.notes.map(
-					note => (note.id !== i) ? note : {...note,note: newNoteTitle}
-					)
-			}));
-		}
+			}
 		})
 		.catch((error) => {
 		console.log(error);
@@ -144,6 +171,11 @@ class Board extends Component {
 			this.props.history.push("/login");//can directly use history?
 		}
 	});
+	self.setState(prevState => ({
+		notes: prevState.notes.map(
+			note => (note.id !== i) ? note : {...note,note: newNoteTitle}
+			)
+	}));
 	}
 	//------------------------------------------------------------------------
 
@@ -164,17 +196,26 @@ class Board extends Component {
 			if(response.message === unanthMessage) {
 				this.props.history.push("/login");
 				//console.log("hello");
-			} else {
-			self.setState(prevState => ({
-				notes: prevState.notes.filter(note => note.id !== id)
-			}));
-		}
+			}
 		})
 		.catch( (error) => {
 		console.log(error);
 	})
+	self.setState(prevState => ({
+		notes: prevState.notes.filter(note => note.id !== id)
+	}));
 	}
 
+	openSearch() {
+		console.log("opening search layer");
+		this.setState({refresh: true}); //not sure if need this
+		document.getElementById("mySearch").style.width = "100%";
+	}
+
+	closeSearch() {
+		this.setState({refresh: false}); //not sure if need this
+		document.getElementById("mySearch").style.width = "0%";
+	}
 
 
 	openNav() {
@@ -210,13 +251,7 @@ class Board extends Component {
 			if(response.message === unanthMessage) {
 				this.props.history.push("/login");
 				//console.log("hello");
-			} else {
-			self.setState(prevState => ({
-				notes: prevState.notes.map(
-					note => (note.id !== noteId) ? note : {...note,animation: side}
-					)
-			}));
-		}
+			}
 		})
 		.catch((error) => {
 		console.log(error);
@@ -224,6 +259,11 @@ class Board extends Component {
 			this.props.history.push("/login");//can directly use history?
 		}
 	});
+	self.setState(prevState => ({
+		notes: prevState.notes.map(
+			note => (note.id !== noteId) ? note : {...note,animation: side}
+			)
+	}));
 	}
 
 	/*--------for flipping end-------------------------------------*/
@@ -246,10 +286,19 @@ class Board extends Component {
 	//here i added a loading state of 1.5s and wrapped the content in a div,
 	//might need to test once the database and the server is deployed.
 	render() {//temporary logout button here
+		if(this.props.location.state === undefined){
+			return (<h1>Please sign in to access the board</h1>);
+		}// just make sure that if someone types /board, they will be
+		//sent to the login page without error being thrown
 		return (
 			<div className={`board board_${this.state.mode}`}>
 			<h1>{this.state.boardTitle}</h1>
+			<button id="nav" onClick={this.openSearch}><SearchIcon /></button>
 			<button id="nav" onClick={this.openNav}><More /></button>
+			<Search closeSearch = {this.closeSearch}
+									boardId = {this.boardId}
+									mode = {this.state.mode}
+									refresh = {this.state.refresh}/>
 			<Navigation closeNav = {this.closeNav}
 									logout = {this.logout}
 									boardId = {this.boardId}
